@@ -1,0 +1,143 @@
+[00000.021] InterSense Library ver. 4.2401 32-bit
+[00000.029] Copyright 1998-2014 InterSense
+[00000.037] http://www.intersense.com
+[00000.044] Tel: +1 781-541-6330
+[00000.052]
+[00000.052] ####################################################
+[00000.060] # Looking for InterSense tracking device number 1  #
+[00000.067] ####################################################
+[00000.076]
+[00000.076] Tue Aug 17 18:10:31 2021
+[00000.085]
+[00000.085] >>> HID protocol detection <<<
+[00000.094] Invalid Handle (\\?\hid#hid&col02#1&2d595ca7&1&0001#{4d1e55b2-f16f-11cf-88cb-001111000030})
+[00000.103] Invalid Handle (\\?\hid#hid&col03#1&2d595ca7&1&0002#{4d1e55b2-f16f-11cf-88cb-001111000030})
+[00000.112] Invalid Handle (\\?\hid#hid&col05#1&2d595ca7&1&0004#{4d1e55b2-f16f-11cf-88cb-001111000030})
+[00000.119] Invalid Handle (\\?\hid#hid&col04#1&2d595ca7&1&0003#{4d1e55b2-f16f-11cf-88cb-001111000030}\kbd)
+[00000.127] Invalid Handle (\\?\hid#syna1202&col01#5&2926909b&0&0000#{4d1e55b2-f16f-11cf-88cb-001111000030})
+[00000.135] Invalid Handle (\\?\hid#syna1202&col02#5&2926909b&0&0001#{4d1e55b2-f16f-11cf-88cb-001111000030})
+[00000.143] Invalid Handle (\\?\hid#intc816#3&36a7043c&0&0000#{4d1e55b2-f16f-11cf-88cb-001111000030})
+[00000.152] Invalid Handle (\\?\hid#hid&col01#1&2d595ca7&1&0000#{4d1e55b2-f16f-11cf-88cb-001111000030})
+[00000.169]
+[00000.169] >>> Serial/TCP protocol detection <<<
+[00000.178] Looking for IS-X00 device on port 1 (0.17)
+[00000.187] Failed to open \\.\COM1 (指定されたファイルが見つかりません。)
+[00000.196] Looking for IS-X00 device on port 2 (0.19)
+[00000.205] Failed to open \\.\COM2 (指定されたファイルが見つかりません。)
+[00000.213] Looking for IS-X00 device on port 3 (0.21)
+[00000.223] Failed to open \\.\COM3 (指定されたファイルが見つかりません。)
+[00000.232] Looking for IS-X00 device on port 4 (0.22)
+[00000.241] Failed to open \\.\COM4 (指定されたファイルが見つかりません。)
+[00000.253] Looking for IS-X00 device on port 5 (0.24)
+[00000.264] Failed to open \\.\COM5 (指定されたファイルが見つかりません。)
+[00000.272] Looking for IS-X00 device on port 6 (0.26)
+[00000.282] Failed to open \\.\COM6 (指定されたファイルが見つかりません。)
+[00000.291] Looking for IS-X00 device on port 7 (0.28)
+[00000.299] Failed to open \\.\COM7 (指定されたファイルが見つかりません。)
+[00000.306] Looking for IS-X00 device on port 8 (0.30)
+[00000.312] Failed to open \\.\COM8 (指定されたファイルが見つかりません。)
+[00000.320] Looking for IS-X00 device on port 9 (0.31)
+[00000.325] Failed to open \\.\COM9 (指定されたファイルが見つかりません。)
+[00000.331] Looking for IS-X00 device on port 10 (0.33)
+[00000.339] Failed to open \\.\COM10 (指定されたファイルが見つかりません。)
+[00000.346] Looking for IS-X00 device on port 11 (0.34)
+[00000.354] Failed to open \\.\COM11 (指定されたファイルが見つかりません。)
+[00000.361] Looking for IS-X00 device on port 12 (0.35)
+[00000.369] Failed to open \\.\COM12 (指定されたファイルが見つかりません。)
+[00000.378] Looking for IS-X00 device on port 13 (0.37)
+[00000.388] Failed to open \\.\COM13 (指定されたファイルが見つかりません。)
+[00000.397] Looking for IS-X00 device on port 14 (0.39)
+[00000.405] Failed to open \\.\COM14 (指定されたファイルが見つかりません。)
+[00000.412] Looking for IS-X00 device on port 15 (0.41)
+[00000.420] Failed to open \\.\COM15 (指定されたファイルが見つかりません。)
+[00000.429] Looking for IS-X00 device on port 16 (0.42)
+[00000.436] Failed to open \\.\COM16 (指定されたファイルが見つかりません。)
+[00000.444] Looking for IS-X00 device on port 17 (0.44)
+[00000.451] Failed to open \\.\COM17 (指定されたファイルが見つかりません。)
+[00000.460] Looking for IS-X00 device on port 18 (0.45)
+[00000.467] Failed to open \\.\COM18 (指定されたファイルが見つかりません。)
+[00000.475] Looking for IS-X00 device on port 19 (0.47)
+[00000.483] Failed to open \\.\COM19 (指定されたファイルが見つかりません。)
+[00000.490] Looking for IS-X00 device on port 20 (0.48)
+[00000.496] Failed to open \\.\COM20 (指定されたファイルが見つかりません。)
+[00000.502] Looking for IS-X00 device on port 21 (0.50)
+[00000.514] Failed to open \\.\COM21 (指定されたファイルが見つかりません。)
+[00000.527] Looking for IS-X00 device on port 22 (0.52)
+[00000.537] Failed to open \\.\COM22 (指定されたファイルが見つかりません。)
+[00000.545] Looking for IS-X00 device on port 23 (0.54)
+[00000.554] Failed to open \\.\COM23 (指定されたファイルが見つかりません。)
+[00000.562] Looking for IS-X00 device on port 24 (0.55)
+[00000.571] Failed to open \\.\COM24 (指定されたファイルが見つかりません。)
+[00000.579] Looking for IS-X00 device on port 25 (0.57)
+[00000.588] Failed to open \\.\COM25 (指定されたファイルが見つかりません。)
+[00000.596] Looking for IS-X00 device on port 26 (0.59)
+[00000.604] Failed to open \\.\COM26 (指定されたファイルが見つかりません。)
+[00000.612] Looking for IS-X00 device on port 27 (0.60)
+[00000.618] Failed to open \\.\COM27 (指定されたファイルが見つかりません。)
+[00000.626] Looking for IS-X00 device on port 28 (0.62)
+[00000.634] Failed to open \\.\COM28 (指定されたファイルが見つかりません。)
+[00000.642] Looking for IS-X00 device on port 29 (0.63)
+[00000.648] Failed to open \\.\COM29 (指定されたファイルが見つかりません。)
+[00000.655] Looking for IS-X00 device on port 30 (0.65)
+[00000.664] Failed to open \\.\COM30 (指定されたファイルが見つかりません。)
+[00000.672] Looking for IS-X00 device on port 31 (0.66)
+[00000.680] Failed to open \\.\COM31 (指定されたファイルが見つかりません。)
+[00000.690] Looking for IS-X00 device on port 32 (0.68)
+[00000.697] Failed to open \\.\COM32 (指定されたファイルが見つかりません。)
+[00000.705]
+[00000.705] >>> SDP protocol detection <<<
+[00000.715]
+[00000.715] Looking for SDP devices (0.71)
+[00000.739] DEVWRN: Device config file not found: isradio.ini
+[00000.746] No HID devices connected
+[00000.755] Failed to open \\.\COM1 (指定されたファイルが見つかりません。)
+[00000.763] Failed to open \\.\COM2 (指定されたファイルが見つかりません。)
+[00000.772] Failed to open \\.\COM3 (指定されたファイルが見つかりません。)
+[00000.780] Failed to open \\.\COM4 (指定されたファイルが見つかりません。)
+[00000.789] Failed to open \\.\COM5 (指定されたファイルが見つかりません。)
+[00000.796] Failed to open \\.\COM6 (指定されたファイルが見つかりません。)
+[00000.803] Failed to open \\.\COM7 (指定されたファイルが見つかりません。)
+[00000.810] Failed to open \\.\COM8 (指定されたファイルが見つかりません。)
+[00000.816] Failed to open \\.\COM9 (指定されたファイルが見つかりません。)
+[00000.823] Failed to open \\.\COM10 (指定されたファイルが見つかりません。)
+[00000.831] Failed to open \\.\COM11 (指定されたファイルが見つかりません。)
+[00000.841] Failed to open \\.\COM12 (指定されたファイルが見つかりません。)
+[00000.847] Failed to open \\.\COM13 (指定されたファイルが見つかりません。)
+[00000.854] Failed to open \\.\COM14 (指定されたファイルが見つかりません。)
+[00000.863] Failed to open \\.\COM15 (指定されたファイルが見つかりません。)
+[00000.873] Failed to open \\.\COM16 (指定されたファイルが見つかりません。)
+[00000.881] Failed to open \\.\COM17 (指定されたファイルが見つかりません。)
+[00000.890] Failed to open \\.\COM18 (指定されたファイルが見つかりません。)
+[00000.897] Failed to open \\.\COM19 (指定されたファイルが見つかりません。)
+[00000.902] Failed to open \\.\COM20 (指定されたファイルが見つかりません。)
+[00000.910] Failed to open \\.\COM21 (指定されたファイルが見つかりません。)
+[00000.918] Failed to open \\.\COM22 (指定されたファイルが見つかりません。)
+[00000.925] Failed to open \\.\COM23 (指定されたファイルが見つかりません。)
+[00000.931] Failed to open \\.\COM24 (指定されたファイルが見つかりません。)
+[00000.938] Failed to open \\.\COM25 (指定されたファイルが見つかりません。)
+[00000.945] Failed to open \\.\COM26 (指定されたファイルが見つかりません。)
+[00000.953] Failed to open \\.\COM27 (指定されたファイルが見つかりません。)
+[00000.961] Failed to open \\.\COM28 (指定されたファイルが見つかりません。)
+[00000.968] Failed to open \\.\COM29 (指定されたファイルが見つかりません。)
+[00000.976] Failed to open \\.\COM30 (指定されたファイルが見つかりません。)
+[00000.984] Failed to open \\.\COM31 (指定されたファイルが見つかりません。)
+[00000.992] Failed to open \\.\COM32 (指定されたファイルが見つかりません。)
+[00001.000] DEVWRN: SDP initialization failed
+[00001.008] DEVMSG: Failed to set device configuration
+[00001.016] ERROR: Interface initialization failed
+[00001.023]
+[00001.023] No SDP Deviced found (1.02)
+[00001.028]
+[00001.028] >>> UDP protocol detection <<<
+[00001.037]
+[00001.037] Looking for UDP Broadcasts
+[00001.044] Windows Sockets 2.2
+[00001.248]   Checking UDP port 5001... NOT FOUND
+[00001.450]   Checking UDP port 5002... NOT FOUND
+[00001.652]   Checking UDP port 5003... NOT FOUND
+[00001.853]   Checking UDP port 5004... NOT FOUND
+[00002.055]   Checking UDP port 5005... NOT FOUND
+[00002.066]
+[00002.066] InterSense tracker not present
+[00002.077] Finished (2.07)
+[00021.927] Dll Unloaded, cleaning up.

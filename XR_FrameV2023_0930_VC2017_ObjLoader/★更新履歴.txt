@@ -1,0 +1,55 @@
+v2.0 1115
+ezMovie.h を追加
+ムービー機能実装
+
+v1.9 1112
+config.h
+- 外部映像入力フラグ usb_video 追加
+sim.h
+- SimDataT に extvideo 追加
+sim.cpp
+- InitScene で extvideo 初期設定
+- UpdataScene で extvideo update
+draw.cpp
+- DrawScene で drawExtVideo
+- 仮に左手に画像をくっつける
+platform.h に config.h インクルード追記
+★image.cpp
+drawMesh でテクスチャメッシュを描画するとき、
+テクスチャをアンバインドするとともに、
+glTexEnv で GL_REPLACE を GL_MODULATE に
+明示的に戻さないと、これ以降のメタセコモデルの描画
+が GL_REPLACE のままになる様子≫glPushAttrib( GL_ALL_ATTRIB_BITS );
+
+v1.8 1111
+確認≫include\struct\
+color.h, euler.h, matrix.h, object.h, vector.h
+calc.cpp
+HitTestBox修正
+
+v1.7 1109
+calc.h, calc.cpp
+vector_t のコンストラクタ修正
+setObjPosの新しいインタフェース追加
+
+v1.6 1029
+main.cpp,main()
+フルスクリーンの条件を整理
+※config.h
+hmdとcylindricalの設定が排他的であることを確認する必要あり
+hmdの設定がフルスクリーンで効かないことは修正する必要あり
+
+v1.6 1019
+main.cpp,update()
+Sleep(16)をSleep(0)に変更
+
+v1.5 0927
+object.h
+＋ObjDataT コンストラクタで初期化追加
+sim.cpp
+＋TermScene 終了処理関数追加
+
+v1.4 0917
+ARTOOLKITでトラッキング
+use_tracker = true;
+use_vicon = false;

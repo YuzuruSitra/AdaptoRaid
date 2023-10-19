@@ -1,0 +1,90 @@
+﻿  sim.cpp
+E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\lib_ObjLoader\ObjLoader_Seq.h(2,10): warning C4067: プリプロセッサ ディレクティブの後に余分な文字がありました - 改行が必要です
+E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\src\sim.cpp(251,14): warning C4101: 'pitch': ローカル変数は 1 度も使われていません。
+E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\src\sim.cpp(251,8): warning C4101: 'roll': ローカル変数は 1 度も使われていません。
+E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\src\sim.cpp(249,8): warning C4101: 'ax': ローカル変数は 1 度も使われていません。
+E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\src\sim.cpp(249,12): warning C4101: 'ay': ローカル変数は 1 度も使われていません。
+E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\src\sim.cpp(249,16): warning C4101: 'az': ローカル変数は 1 度も使われていません。
+E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\src\sim.cpp(251,21): warning C4101: 'yaw': ローカル変数は 1 度も使われていません。
+E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\src\sim.cpp(298,14): warning C4101: 'pitch': ローカル変数は 1 度も使われていません。
+E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\src\sim.cpp(298,8): warning C4101: 'roll': ローカル変数は 1 度も使われていません。
+E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\src\sim.cpp(296,8): warning C4101: 'ax': ローカル変数は 1 度も使われていません。
+E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\src\sim.cpp(297,8): warning C4101: 'gx': ローカル変数は 1 度も使われていません。
+E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\src\sim.cpp(297,16): warning C4101: 'gz': ローカル変数は 1 度も使われていません。
+E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\src\sim.cpp(296,12): warning C4101: 'ay': ローカル変数は 1 度も使われていません。
+E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\src\sim.cpp(296,16): warning C4101: 'az': ローカル変数は 1 度も使われていません。
+E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\src\sim.cpp(298,21): warning C4101: 'yaw': ローカル変数は 1 度も使われていません。
+E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\src\sim.cpp(297,12): warning C4101: 'gy': ローカル変数は 1 度も使われていません。
+  libpng16.lib(pngread.obj) : MSIL .netmodule または /GL を伴ってコンパイルされたモジュールが見つかりました。/LTCG を使用して再開始してください。リンカーのパフォーマンスを向上させるためには、コマンドラインに /LTCG を追加してください。
+LINK : warning LNK4075: /INCREMENTAL は /LTCG の指定によって無視されます。
+     ライブラリ E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\Debug\vrframe2020_v1.lib とオブジェクト E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\Debug\vrframe2020_v1.exp を作成中
+LINK : warning LNK4098: defaultlib 'LIBCMT' は他のライブラリの使用と競合しています。/NODEFAULTLIB:library を使用してください。
+  コード生成しています。
+  コード生成が終了しました。
+libpng16.lib(pngread.obj) : warning LNK4099: PDB '' が 'libpng16.lib(pngread.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+libpng16.lib(pngwrite.obj) : warning LNK4099: PDB '' が 'libpng16.lib(pngwrite.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+libpng16.lib(png.obj) : warning LNK4099: PDB '' が 'libpng16.lib(png.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+libpng16.lib(pngget.obj) : warning LNK4099: PDB '' が 'libpng16.lib(pngget.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+libpng16.lib(pngset.obj) : warning LNK4099: PDB '' が 'libpng16.lib(pngset.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+libpng16.lib(pngrio.obj) : warning LNK4099: PDB '' が 'libpng16.lib(pngrio.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+libpng16.lib(pngrutil.obj) : warning LNK4099: PDB '' が 'libpng16.lib(pngrutil.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+libpng16.lib(pngerror.obj) : warning LNK4099: PDB '' が 'libpng16.lib(pngerror.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+libpng16.lib(pngrtran.obj) : warning LNK4099: PDB '' が 'libpng16.lib(pngrtran.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+libpng16.lib(pngtrans.obj) : warning LNK4099: PDB '' が 'libpng16.lib(pngtrans.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+libpng16.lib(pngmem.obj) : warning LNK4099: PDB '' が 'libpng16.lib(pngmem.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+libpng16.lib(pngwutil.obj) : warning LNK4099: PDB '' が 'libpng16.lib(pngwutil.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+libpng16.lib(pngwio.obj) : warning LNK4099: PDB '' が 'libpng16.lib(pngwio.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+libpng16.lib(pngwtran.obj) : warning LNK4099: PDB '' が 'libpng16.lib(pngwtran.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+zlib.lib(inflate.obj) : warning LNK4099: PDB '' が 'zlib.lib(inflate.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+zlib.lib(deflate.obj) : warning LNK4099: PDB '' が 'zlib.lib(deflate.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+zlib.lib(adler32.obj) : warning LNK4099: PDB '' が 'zlib.lib(adler32.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+zlib.lib(crc32.obj) : warning LNK4099: PDB '' が 'zlib.lib(crc32.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+zlib.lib(inftrees.obj) : warning LNK4099: PDB '' が 'zlib.lib(inftrees.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+zlib.lib(inffast.obj) : warning LNK4099: PDB '' が 'zlib.lib(inffast.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+zlib.lib(zutil.obj) : warning LNK4099: PDB '' が 'zlib.lib(zutil.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+zlib.lib(trees.obj) : warning LNK4099: PDB '' が 'zlib.lib(trees.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+libjpeg.lib(jaricom.obj) : warning LNK4099: PDB '' が 'libjpeg.lib(jaricom.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+libjpeg.lib(jcapimin.obj) : warning LNK4099: PDB '' が 'libjpeg.lib(jcapimin.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+libjpeg.lib(jcapistd.obj) : warning LNK4099: PDB '' が 'libjpeg.lib(jcapistd.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+libjpeg.lib(jcarith.obj) : warning LNK4099: PDB '' が 'libjpeg.lib(jcarith.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+libjpeg.lib(jccoefct.obj) : warning LNK4099: PDB '' が 'libjpeg.lib(jccoefct.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+libjpeg.lib(jccolor.obj) : warning LNK4099: PDB '' が 'libjpeg.lib(jccolor.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+libjpeg.lib(jcdctmgr.obj) : warning LNK4099: PDB '' が 'libjpeg.lib(jcdctmgr.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+libjpeg.lib(jchuff.obj) : warning LNK4099: PDB '' が 'libjpeg.lib(jchuff.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+libjpeg.lib(jcinit.obj) : warning LNK4099: PDB '' が 'libjpeg.lib(jcinit.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+libjpeg.lib(jcmainct.obj) : warning LNK4099: PDB '' が 'libjpeg.lib(jcmainct.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+libjpeg.lib(jcmarker.obj) : warning LNK4099: PDB '' が 'libjpeg.lib(jcmarker.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+libjpeg.lib(jcmaster.obj) : warning LNK4099: PDB '' が 'libjpeg.lib(jcmaster.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+libjpeg.lib(jcomapi.obj) : warning LNK4099: PDB '' が 'libjpeg.lib(jcomapi.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+libjpeg.lib(jcparam.obj) : warning LNK4099: PDB '' が 'libjpeg.lib(jcparam.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+libjpeg.lib(jcprepct.obj) : warning LNK4099: PDB '' が 'libjpeg.lib(jcprepct.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+libjpeg.lib(jcsample.obj) : warning LNK4099: PDB '' が 'libjpeg.lib(jcsample.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+libjpeg.lib(jdapimin.obj) : warning LNK4099: PDB '' が 'libjpeg.lib(jdapimin.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+libjpeg.lib(jdapistd.obj) : warning LNK4099: PDB '' が 'libjpeg.lib(jdapistd.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+libjpeg.lib(jdarith.obj) : warning LNK4099: PDB '' が 'libjpeg.lib(jdarith.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+libjpeg.lib(jdatadst.obj) : warning LNK4099: PDB '' が 'libjpeg.lib(jdatadst.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+libjpeg.lib(jdatasrc.obj) : warning LNK4099: PDB '' が 'libjpeg.lib(jdatasrc.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+libjpeg.lib(jdcoefct.obj) : warning LNK4099: PDB '' が 'libjpeg.lib(jdcoefct.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+libjpeg.lib(jdcolor.obj) : warning LNK4099: PDB '' が 'libjpeg.lib(jdcolor.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+libjpeg.lib(jddctmgr.obj) : warning LNK4099: PDB '' が 'libjpeg.lib(jddctmgr.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+libjpeg.lib(jdhuff.obj) : warning LNK4099: PDB '' が 'libjpeg.lib(jdhuff.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+libjpeg.lib(jdinput.obj) : warning LNK4099: PDB '' が 'libjpeg.lib(jdinput.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+libjpeg.lib(jdmainct.obj) : warning LNK4099: PDB '' が 'libjpeg.lib(jdmainct.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+libjpeg.lib(jdmarker.obj) : warning LNK4099: PDB '' が 'libjpeg.lib(jdmarker.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+libjpeg.lib(jdmaster.obj) : warning LNK4099: PDB '' が 'libjpeg.lib(jdmaster.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+libjpeg.lib(jdmerge.obj) : warning LNK4099: PDB '' が 'libjpeg.lib(jdmerge.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+libjpeg.lib(jdpostct.obj) : warning LNK4099: PDB '' が 'libjpeg.lib(jdpostct.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+libjpeg.lib(jdsample.obj) : warning LNK4099: PDB '' が 'libjpeg.lib(jdsample.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+libjpeg.lib(jerror.obj) : warning LNK4099: PDB '' が 'libjpeg.lib(jerror.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+libjpeg.lib(jfdctflt.obj) : warning LNK4099: PDB '' が 'libjpeg.lib(jfdctflt.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+libjpeg.lib(jfdctfst.obj) : warning LNK4099: PDB '' が 'libjpeg.lib(jfdctfst.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+libjpeg.lib(jfdctint.obj) : warning LNK4099: PDB '' が 'libjpeg.lib(jfdctint.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+libjpeg.lib(jidctflt.obj) : warning LNK4099: PDB '' が 'libjpeg.lib(jidctflt.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+libjpeg.lib(jidctfst.obj) : warning LNK4099: PDB '' が 'libjpeg.lib(jidctfst.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+libjpeg.lib(jidctint.obj) : warning LNK4099: PDB '' が 'libjpeg.lib(jidctint.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+libjpeg.lib(jmemmgr.obj) : warning LNK4099: PDB '' が 'libjpeg.lib(jmemmgr.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+libjpeg.lib(jmemnobs.obj) : warning LNK4099: PDB '' が 'libjpeg.lib(jmemnobs.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+libjpeg.lib(jquant1.obj) : warning LNK4099: PDB '' が 'libjpeg.lib(jquant1.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+libjpeg.lib(jquant2.obj) : warning LNK4099: PDB '' が 'libjpeg.lib(jquant2.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+libjpeg.lib(jutils.obj) : warning LNK4099: PDB '' が 'libjpeg.lib(jutils.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+  vrframe2020_v1.vcxproj -> E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\Debug\vrframe2020_v1.exe

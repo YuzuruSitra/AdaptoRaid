@@ -1,0 +1,14 @@
+newmtl blinn1SG
+illum 4
+Kd 0.50 0.50 0.50
+Ka 0.80 0.80 0.80
+Tf 1.00 1.00 1.00
+map_Kd iltj_mark.png
+Ni 1.00
+Ks 0.50 0.50 0.50
+refl -type cube_top factory_reflection_bw1.png
+refl -type cube_bottom factory_reflection_bw1.png
+refl -type cube_front factory_reflection_bw1.png
+refl -type cube_back factory_reflection_bw1.png
+refl -type cube_left factory_reflection_bw1.png
+refl -type cube_right factory_reflection_bw1.png
