@@ -75,6 +75,7 @@ static void copyTrackToObj( ezTrackDataT *src, ObjDataT *dst )
 	setObjRot( dst, rot );
 }
 
+
 /*---------------------------------------------------------------- InitScene
  * InitScene:
  *--------*/
@@ -474,6 +475,8 @@ void UpdateScene( void )
 		//copyTrackToObj( trackHandL, &simdata.handL );
 		//copyTrackToObj( trackHandR, &simdata.handR );
 		
+		/*
+
 		//◆02◆マウスで右手handRを動かす
 		//感度調整＋基準位置調整 ########
 		simdata.handR.pos.x = mouse.x * 2.0 + 0.25; // mouse.x: -1.0（左端）～1.0（右端）
@@ -503,6 +506,7 @@ void UpdateScene( void )
 			simdata.handL.pos.z += 0.01; //###### VECTOR Z
 		}
 		//////////★
+		*/
 	}
 	if( use_gyro ){
 		float rot[3];
@@ -556,6 +560,7 @@ void UpdateScene( void )
 	float deltaTime = frameRateCounter.GetElapsedTime();
 
 
+	/*
 	//★左手の動作で移動する操作
 	switch (simdata.handL.state) {
 	case 0: //◆非移動モード
@@ -579,8 +584,12 @@ void UpdateScene( void )
 		MoveObject(&simdata.player);
 		break;
 	}
+	*/
+
 
 	//状態遷移のチェック、状態遷移、
+	
+	
 	//◆04
 	bool ishit;
 	switch (simdata.sphere.state) {

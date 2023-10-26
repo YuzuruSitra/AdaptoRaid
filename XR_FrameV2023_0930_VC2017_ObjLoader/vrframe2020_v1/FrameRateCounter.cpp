@@ -20,7 +20,7 @@ void FrameRateCounter::Update() {
     DeltaTime = static_cast<float>(duration.count()) / 1e9f; // 経過時間を秒単位に変換
 
     // フレームレートを表示
-    double updateTime = difftime(currentTime, startTime);
+    float updateTime = difftime(currentTime, startTime);
     if (updateTime >= 1) {
         PrintInfo();
         startTime = currentTime;

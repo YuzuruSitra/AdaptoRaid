@@ -179,8 +179,8 @@ void initWindow( char *winname )
 {
 	if( !fullscreen ){// ウィンドウモード
 		if (cylindrical) {
-			window.width = 1025;//4100/4
-			window.height = 300;//1080/4= 270, 1200/4= 300;
+			window.width = 1440;//4100/4
+			window.height = 810;//1080/4= 270, 1200/4= 300;
 		}
 		else { // >>>> HMD <<<<
 			float k = 0.5;

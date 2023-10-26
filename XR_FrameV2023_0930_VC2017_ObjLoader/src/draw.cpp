@@ -245,12 +245,12 @@ void DrawScene( void )
 
 	glEnable( GL_LIGHTING );
 
-	glPushMatrix();
+	// glPushMatrix();
 	//applyObjTransform( &simdata.player );
-	drawHandL();
-	drawHandR();
+	// drawHandL();
+	// drawHandR();
 
-	glPopMatrix();
+	// glPopMatrix();
 
 	// S‘Ÿ‚Ì“Ç‚İ‚İ
 	//glPushMatrix();
@@ -273,6 +273,7 @@ void DrawScene( void )
 	}
 	glPopMatrix();
 
+	/*
 	//// ƒvƒŒƒCƒ„‚ğ•`‰æ‚·‚é
 	glPushMatrix();
 	{
@@ -281,6 +282,7 @@ void DrawScene( void )
 		//drawPlayer();
 	}
 	glPopMatrix();
+	*/
 
     return;
 }

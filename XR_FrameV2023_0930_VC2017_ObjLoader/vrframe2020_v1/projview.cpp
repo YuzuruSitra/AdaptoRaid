@@ -12,9 +12,9 @@ extern WindowDataT window;
 void Viewing( void )
 {
 	//主観カメラの場合
-    //gluLookAt( 0.0, 1.0, 5.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0 );
+    gluLookAt( 0.0, 1.0, 5.0, 50.0, 1.0, 0.0, 0.0, 1.0, 0.0 );
 
-	applyObjInverse( &simdata.head );
+	// applyObjInverse( &simdata.head );
 	/*
 	glRotatef( - simdata.head.roll, 0.0, 0.0, 1.0 ); //rollの逆変換
 	glRotatef( - simdata.head.pitch, 1.0, 0.0, 0.0 ); //pitchの逆変換
@@ -33,7 +33,7 @@ void Viewing( void )
 	*/
 	//----------------------------------------------------
 	//客観カメラ（固定カメラ）でプレイヤを注視する場合はこちら
-	//gluLookAt( 0.0, 1.0, 3.0, simdata.player.x, simdata.player.y, simdata.player.z, 0.0, 1.0, 0.0 );
+	// gluLookAt( 0.0, 1.0, 3.0, simdata.player.x, simdata.player.y, simdata.player.z, 0.0, 1.0, 0.0 );
 }
 /*---------------------------------------------------------------- Projection
  * Projection:
