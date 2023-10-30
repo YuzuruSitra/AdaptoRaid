@@ -153,22 +153,24 @@ void InitScene( void )
 	simdata.player.radius = 0.5;
 	
 
-	//float setPosX = 0;
-	//float setPosY = 0;
-	
-	float setPosZ = -5;
+	const float SET_POS_Z = -15.0;
+	const float CREVICE_X = 2;
+	const float CREVICE_Y = 1.5;
+	int rowCount = 6;
+	const float THRESHOLD_Y_POINT = 3;
+	const float THRESHOLD_X_POINT = rowCount / 2 * CREVICE_X - CREVICE_X / 2;
 	// “G
-	for (int i = 2; i < N_ENEMIES; i++)
+	for (int i = 0; i < N_ENEMIES; i++)
 	{
-		//float setPosX = i * 3;
-		float setPosX = 3;
-		int countY = i / 6;
-		float setPosY = countY * 3;
+		int countY = i / rowCount;
+		float setPosX = (i * CREVICE_X) - (countY * rowCount * CREVICE_X) - THRESHOLD_X_POINT;
+		float setPosY = countY * CREVICE_Y + THRESHOLD_Y_POINT;
 
-		setObjPos(&simdata.enemies[i], setPosX, setPosY, setPosZ);
-		printf("enemies[%i]‚Í%f\n", i, setPosX);
+		setObjPos(&simdata.enemies[i], setPosX, setPosY, SET_POS_Z);
+		setObjRot(&simdata.enemies[i], 0.0, 0.0, 0.0);
 
-		//enemies
+		//printf("enemies[%i]‚Ì XÀ•W:%f YÀ•W:%f\n", i, setPosX, setPosY);
+	
 		simdata.enemies[i].move = 0.0;
 		simdata.enemies[i].turn = 0.0;
 

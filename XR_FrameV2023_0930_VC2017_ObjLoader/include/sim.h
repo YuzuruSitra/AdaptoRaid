@@ -29,7 +29,7 @@ void DrawScene( void );
 #define N_MARKER 2048
 
 //////// N—ªÒ
-#define N_ENEMIES 36
+#define N_ENEMIES 24
 
 //-------- simulation data
 typedef struct {
