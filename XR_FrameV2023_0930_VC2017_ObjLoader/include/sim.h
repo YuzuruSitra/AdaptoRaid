@@ -28,6 +28,9 @@ void DrawScene( void );
 #define N_TARGET 15
 #define N_MARKER 2048
 
+//////// 侵略者
+#define N_ENEMIES 36
+
 //-------- simulation data
 typedef struct {
 
@@ -48,6 +51,9 @@ typedef struct {
 	ObjDataT sphere; /////◆球体
 
 	ObjDataT player; /////◆プレイヤ（の足元★）をあらわすオブジェクト
+
+	ObjDataT enemies[N_ENEMIES];
+
 
 	ObjDataT head;//★
 	ObjDataT body;

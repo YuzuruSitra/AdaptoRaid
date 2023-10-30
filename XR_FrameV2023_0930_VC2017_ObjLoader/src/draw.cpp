@@ -228,6 +228,28 @@ void PostDraw(void)
 	glColor3f( 1.0, 1.0, 1.0 );
 	drawString(0.1, 0.3, 0.0, 0.25, 0.5, head_xyz );
 }
+
+void drawEnemies(void)
+{
+	for (int i = 0; i < N_ENEMIES; i++)
+	{
+		if (simdata.enemies[i].visible)
+		{
+			
+			applyObjTransform(&simdata.enemies[i]);
+			applyObjColor(&simdata.enemies[i]);
+
+			glTranslatef(0.0, 0.0, 0.0);    //オブジェクト基準位置調整
+			glRotatef(0.0, 0.0, 0.0, 0.0);  //オブジェクト基準姿勢調整：ヨー角
+			glRotatef(0.0, 0.0, 0.0, 0.0); //オブジェクト基準姿勢調整：ピッチ角
+			glRotatef(0.0, 0.0, 0.0, 0.0);  //オブジェクト基準姿勢調整：ロール角
+
+			glutSolidCube(1.0);
+			glutWireCube(simdata.enemies[i].radius);
+		}
+	}
+}
+
 /**/
 /*---------------------------------------------------------------- DrawScene
  * DrawScene:
@@ -270,6 +292,12 @@ void DrawScene( void )
 		applyObjColor( &simdata.cube );
 		glScalef( simdata.cube.xsize, simdata.cube.ysize, simdata.cube.zsize );
 		drawSolidCube();
+	}
+	glPopMatrix();
+
+	glPushMatrix();
+	{
+		drawEnemies();
 	}
 	glPopMatrix();
 

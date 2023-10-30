@@ -152,6 +152,33 @@ void InitScene( void )
 	simdata.player.move = 0.0;
 	simdata.player.radius = 0.5;
 	
+
+	//float setPosX = 0;
+	//float setPosY = 0;
+	
+	float setPosZ = -5;
+	// 敵
+	for (int i = 2; i < N_ENEMIES; i++)
+	{
+		//float setPosX = i * 3;
+		float setPosX = 3;
+		int countY = i / 6;
+		float setPosY = countY * 3;
+
+		setObjPos(&simdata.enemies[i], setPosX, setPosY, setPosZ);
+		printf("enemies[%i]は%f\n", i, setPosX);
+
+		//enemies
+		simdata.enemies[i].move = 0.0;
+		simdata.enemies[i].turn = 0.0;
+
+		setObjColor(&simdata.enemies[i], 0.0, 1.0, 0.0);
+		// 当たり判定
+		simdata.enemies[i].radius = 0.5;
+		simdata.enemies[i].state = 0;
+		simdata.enemies[i].visible = true;
+	}
+	
 	//右手（ローカル座標）をプレイヤの子座標系とする
 	setObjLocal( &simdata.handR, &simdata.player ); //★
 
