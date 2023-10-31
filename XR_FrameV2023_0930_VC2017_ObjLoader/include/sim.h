@@ -18,6 +18,7 @@ void TermScene( void );
 void PreDraw( void );
 void PostDraw( void );
 void DrawScene( void );
+void MovingFort( void );
 void MovingEnemies( void );
 //void Lighting( void );
 //void HeadLight( void );
@@ -54,7 +55,7 @@ typedef struct {
 	ObjDataT player; /////◆プレイヤ（の足元★）をあらわすオブジェクト
 
 	ObjDataT enemies[N_ENEMIES];
-
+	ObjDataT fort; //砲台(プレイヤー)
 
 	ObjDataT head;//★
 	ObjDataT body;

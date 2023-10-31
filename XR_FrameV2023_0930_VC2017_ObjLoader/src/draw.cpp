@@ -229,6 +229,16 @@ void PostDraw(void)
 	drawString(0.1, 0.3, 0.0, 0.25, 0.5, head_xyz );
 }
 
+// 砲台(プレイヤー)の描画
+void drawFort(void)
+{
+	glTranslatef(0.0, 0.0, 0.0);   //オブジェクト基準位置調整
+	glRotatef(0.0, 0.0, 1.0, 0.0); //オブジェクト基準姿勢調整：ヨー角
+	glRotatef(0.0, 1.0, 0.0, 0.0); //オブジェクト基準姿勢調整：ピッチ角
+	glRotatef(0.0, 0.0, 0.0, 1.0); //オブジェクト基準姿勢調整：ロール角
+	glutSolidCube(1.0);
+	glutWireCube(simdata.fort.radius);
+}
 
 // 侵略者の描画
 void drawEnemies(void)
@@ -242,12 +252,13 @@ void drawEnemies(void)
 			applyObjTransform(&simdata.enemies[i]);
 			applyObjColor(&simdata.enemies[i]);
 
+			glScalef(simdata.enemies[i].xsize, simdata.enemies[i].ysize, simdata.enemies[i].zsize);
 			glTranslatef(0.0, 0.0, 0.0);    //オブジェクト基準位置調整
 			glRotatef(0.0, 0.0, 1.0, 0.0);  //オブジェクト基準姿勢調整：ヨー角
 			glRotatef(180.0, 1.0, 0.0, 0.0); //オブジェクト基準姿勢調整：ピッチ角
 			glRotatef(0.0, 0.0, 0.0, 1.0);  //オブジェクト基準姿勢調整：ロール角
 
-			glutSolidCube(1.0);
+			glutSolidCube(1);
 			glutWireCube(simdata.enemies[i].radius);
 		}
 		glPopMatrix();
@@ -289,13 +300,13 @@ void DrawScene( void )
 	//}
 	//glPopMatrix();
 
-	///////cubeの描画
+	///////fortの描画
 	glPushMatrix();
 	{
-		applyObjTransform( &simdata.cube );
-		applyObjColor( &simdata.cube );
-		glScalef( simdata.cube.xsize, simdata.cube.ysize, simdata.cube.zsize );
-		drawSolidCube();
+		applyObjTransform( &simdata.fort );
+		applyObjColor( &simdata.fort );
+		glScalef( simdata.fort.xsize, simdata.fort.ysize, simdata.fort.zsize );
+		drawFort();
 	}
 	glPopMatrix();
 

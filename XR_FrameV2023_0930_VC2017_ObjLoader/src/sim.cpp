@@ -153,14 +153,27 @@ void InitScene( void )
 	simdata.player.radius = 0.5;
 	
 
-	const float SET_POS_Z = -15.0;
+
+	const float SET_POS_Z = -10.0;
+
+	// 砲台
+	setObjPos(&simdata.fort, 0.0, 0.0, SET_POS_Z);
+	setObjRot(&simdata.fort, 0.0, 0.0, 0.0);
+	setObjColor(&simdata.fort, 0.0, 0.8, 0.8);
+	simdata.fort.visible = true;
+	simdata.fort.state = 0;
+	simdata.fort.radius = 1.0;
+	simdata.fort.xsize = 2.0;
+	simdata.fort.ysize = 0.25;
+	simdata.fort.zsize = 1.0;
+
+	// 敵
 	const float CREVICE_X = 2;
 	const float CREVICE_Y = 1.5;
 	int rowCount = 6;
 	const float THRESHOLD_Y_POINT = 3;
 	const float THRESHOLD_X_POINT = rowCount / 2 * CREVICE_X - CREVICE_X / 2;
 	const float delayValue = 0.1f;
-	// 敵
 	for (int i = 0; i < N_ENEMIES; i++)
 	{
 		int countY = i / rowCount;
@@ -169,6 +182,9 @@ void InitScene( void )
 
 		setObjPos(&simdata.enemies[i], setPosX, setPosY, SET_POS_Z);
 		setObjRot(&simdata.enemies[i], 0.0, 0.0, 0.0);
+		simdata.enemies[i].xsize = 0.75;
+		simdata.enemies[i].ysize = 0.75;
+		simdata.enemies[i].zsize = 0.75;
 
 		//printf("enemies[%i]の X座標:%f Y座標:%f\n", i, setPosX, setPosY);
 	
@@ -430,6 +446,8 @@ void GetDataFromArduino( vector_t *acc, euler_t *rot, euler_t *gyro )
  *--------*/
 
 float deltaTime;
+// ゲームの横幅
+const float LANGE_POS_X = 8;
 
 void UpdateScene( void )
 {
@@ -538,6 +556,7 @@ void UpdateScene( void )
 		//Z座標はlocalHandLで初期設定のまま
 		//▲
 		
+		
 		////★追加
 		if (keydata.arrowUp) {
 			simdata.handL.pos.z -= 0.01; //###### VECTOR Z
@@ -629,7 +648,7 @@ void UpdateScene( void )
 
 	//状態遷移のチェック、状態遷移、
 	
-	
+	/*
 	//◆04
 	bool ishit;
 	switch (simdata.sphere.state) {
@@ -673,20 +692,31 @@ void UpdateScene( void )
 		setObjColor(&simdata.cube, 0.0, 1.0, 0.0);
 
 	}
+	*/
 	
+	// フリーズ時の暴走ケア
+	if (deltaTime >= 0.1f) return;
+
+	MovingFort();
 	MovingEnemies();
 
     return;
 }
 
+// 砲台(プレイヤー)の移動
+void MovingFort(void)
+{
+	float speed = 4.0f;
+	if (keydata.arrowLeft && simdata.fort.pos.x > -LANGE_POS_X) simdata.fort.pos.x -= speed * deltaTime;
+	if (keydata.arrowRight && simdata.fort.pos.x < LANGE_POS_X) simdata.fort.pos.x += speed * deltaTime;
+	return;
+}
 
 // 敵の移動
 void MovingEnemies(void)
 {
 	for (int i = 0; i < N_ENEMIES; i++)
 	{
-		// フリーズ時の暴走ケア
-		if (deltaTime >= 0.1f) continue;
 		if (simdata.enemies[i].enemyMoveTime >= 0)
 		{
 			simdata.enemies[i].enemyMoveTime -= deltaTime;
@@ -694,7 +724,6 @@ void MovingEnemies(void)
 		}
 
 		float speed = 2.0f;
-		const float LANGE_POS_X = 12;
 
 		// 左右移動の切り替え制御
 		if ((simdata.enemies[i].pos.x > LANGE_POS_X && simdata.enemies[i].enemyLastReachPoint == 0) || (simdata.enemies[i].pos.x < -LANGE_POS_X && simdata.enemies[i].enemyLastReachPoint == 1))

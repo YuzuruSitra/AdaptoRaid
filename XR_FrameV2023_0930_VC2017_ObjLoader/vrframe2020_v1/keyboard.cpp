@@ -126,10 +126,17 @@ void charKeyDown( unsigned char key, int x, int y )
 		  break;
 		  //デバッグ表示切り替え
 	  case 'D':
-	  case 'd':
+	  //case 'd':
 		  if( !distortion ) break;
 		  g_DC_left.switchDebugMode();
 		  g_DC_right.switchDebugMode();
+		  break;
+	  // arrowKeyだけだと不便なのでaとdキーを追加
+	  case 'a':
+		  keydata.arrowLeft = true;
+		  break;
+	  case 'd':
+		  keydata.arrowRight = true;
 		  break;
 	  case ' ':
 		  if (simdata.cube.base != NULL) {
@@ -166,6 +173,17 @@ void charKeyUp( unsigned char key, int x, int y )
 	_charKey( key, x, y, false );
 
     //------------------- begin user code
+	switch (key) 
+	{
+		case 'a':
+			keydata.arrowLeft = false;
+			break;
+		case 'd':
+			keydata.arrowRight = false;
+			break;
+		default:
+			break;
+	}
 
 	//------------------- end user code
 
