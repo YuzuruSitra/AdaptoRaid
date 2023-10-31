@@ -18,6 +18,7 @@ void TermScene( void );
 void PreDraw( void );
 void PostDraw( void );
 void DrawScene( void );
+void MovingEnemies( void );
 //void Lighting( void );
 //void HeadLight( void );
 /*

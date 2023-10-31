@@ -26,6 +26,11 @@ typedef struct _objdata_t{
 	float radius; //◆衝突判定用の半径
 	float xsize, ysize, zsize; //ボックスサイズ
 
+	float enemyMoveTime; // 敵の移動タイミング制御用
+	float enemyGoRight; // 敵の左右制御用
+	int enemyLastReachPoint; // 最後に到達した地点
+	int enemyLine; // 敵の所属している列
+
 	struct _objdata_t *base; //★親ノード
 
 	_objdata_t() {

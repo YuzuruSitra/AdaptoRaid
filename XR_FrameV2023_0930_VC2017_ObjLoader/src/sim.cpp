@@ -159,6 +159,7 @@ void InitScene( void )
 	int rowCount = 6;
 	const float THRESHOLD_Y_POINT = 3;
 	const float THRESHOLD_X_POINT = rowCount / 2 * CREVICE_X - CREVICE_X / 2;
+	const float delayValue = 0.1f;
 	// 敵
 	for (int i = 0; i < N_ENEMIES; i++)
 	{
@@ -179,6 +180,12 @@ void InitScene( void )
 		simdata.enemies[i].radius = 0.5;
 		simdata.enemies[i].state = 0;
 		simdata.enemies[i].visible = true;
+
+		// 移動用変数の初期化
+		simdata.enemies[i].enemyMoveTime = countY * delayValue;
+		simdata.enemies[i].enemyGoRight = true;
+		simdata.enemies[i].enemyLastReachPoint = 0;// 左:0 右:1
+		simdata.enemies[i].enemyLine = countY;
 	}
 	
 	//右手（ローカル座標）をプレイヤの子座標系とする
@@ -421,8 +428,12 @@ void GetDataFromArduino( vector_t *acc, euler_t *rot, euler_t *gyro )
 /*-------------------------------------------------------------- UpdateScene
  * UpdateScene:
  *--------*/
+
+float deltaTime;
+
 void UpdateScene( void )
 {
+
 	simdata.time = glutGet( GLUT_ELAPSED_TIME );
 
 #if MY_TCP_FLAG
@@ -586,7 +597,7 @@ void UpdateScene( void )
 
 	// フレームレートカウンターを更新
 	frameRateCounter.Update();
-	float deltaTime = frameRateCounter.GetElapsedTime();
+	deltaTime = frameRateCounter.GetElapsedTime();
 
 
 	/*
@@ -662,9 +673,52 @@ void UpdateScene( void )
 		setObjColor(&simdata.cube, 0.0, 1.0, 0.0);
 
 	}
+	
+	MovingEnemies();
 
     return;
 }
+
+
+// 敵の移動
+void MovingEnemies(void)
+{
+	for (int i = 0; i < N_ENEMIES; i++)
+	{
+		// フリーズ時の暴走ケア
+		if (deltaTime >= 0.1f) continue;
+		if (simdata.enemies[i].enemyMoveTime >= 0)
+		{
+			simdata.enemies[i].enemyMoveTime -= deltaTime;
+			continue;
+		}
+
+		float speed = 2.0f;
+		const float LANGE_POS_X = 12;
+
+		// 左右移動の切り替え制御
+		if ((simdata.enemies[i].pos.x > LANGE_POS_X && simdata.enemies[i].enemyLastReachPoint == 0) || (simdata.enemies[i].pos.x < -LANGE_POS_X && simdata.enemies[i].enemyLastReachPoint == 1))
+		{
+			setObjPos(&simdata.enemies[i], (simdata.enemies[i].enemyLastReachPoint == 0) ? LANGE_POS_X : -LANGE_POS_X, simdata.enemies[i].pos.y, simdata.enemies[i].pos.z);
+			int line = simdata.enemies[i].enemyLine;
+			// 同じ行の敵に影響を与える
+			for (int i = 0; i < N_ENEMIES; i++)
+			{
+				if (simdata.enemies[i].enemyLine != line) continue;
+				simdata.enemies[i].enemyGoRight = !simdata.enemies[i].enemyGoRight;
+				simdata.enemies[i].enemyLastReachPoint = (simdata.enemies[i].enemyLastReachPoint == 0) ? 1 : 0;
+			}
+		}
+
+		if (!simdata.enemies[i].enemyGoRight) speed *= -1;
+
+		float setPosX = simdata.enemies[i].pos.x + speed * deltaTime;
+		setObjPos(&simdata.enemies[i], setPosX, simdata.enemies[i].pos.y, simdata.enemies[i].pos.z);
+	}
+	return;
+}
+
+
 ////////
 void TermScene(void)
 {

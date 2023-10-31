@@ -1,20 +1,33 @@
-﻿  sim.cpp
+﻿  calc.cpp
+  draw.cpp
 E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\lib_ObjLoader\ObjLoader_Seq.h(2,10): warning C4067: プリプロセッサ ディレクティブの後に余分な文字がありました - 改行が必要です
-E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\src\sim.cpp(281,14): warning C4101: 'pitch': ローカル変数は 1 度も使われていません。
-E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\src\sim.cpp(281,8): warning C4101: 'roll': ローカル変数は 1 度も使われていません。
-E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\src\sim.cpp(279,8): warning C4101: 'ax': ローカル変数は 1 度も使われていません。
-E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\src\sim.cpp(279,12): warning C4101: 'ay': ローカル変数は 1 度も使われていません。
-E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\src\sim.cpp(279,16): warning C4101: 'az': ローカル変数は 1 度も使われていません。
-E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\src\sim.cpp(281,21): warning C4101: 'yaw': ローカル変数は 1 度も使われていません。
-E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\src\sim.cpp(328,14): warning C4101: 'pitch': ローカル変数は 1 度も使われていません。
-E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\src\sim.cpp(328,8): warning C4101: 'roll': ローカル変数は 1 度も使われていません。
-E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\src\sim.cpp(326,8): warning C4101: 'ax': ローカル変数は 1 度も使われていません。
-E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\src\sim.cpp(327,8): warning C4101: 'gx': ローカル変数は 1 度も使われていません。
-E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\src\sim.cpp(327,16): warning C4101: 'gz': ローカル変数は 1 度も使われていません。
-E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\src\sim.cpp(326,12): warning C4101: 'ay': ローカル変数は 1 度も使われていません。
-E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\src\sim.cpp(326,16): warning C4101: 'az': ローカル変数は 1 度も使われていません。
-E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\src\sim.cpp(328,21): warning C4101: 'yaw': ローカル変数は 1 度も使われていません。
-E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\src\sim.cpp(327,12): warning C4101: 'gy': ローカル変数は 1 度も使われていません。
+  mymodel.cpp
+E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\lib_ObjLoader\ObjLoader_seq.h(2,10): warning C4067: プリプロセッサ ディレクティブの後に余分な文字がありました - 改行が必要です
+  sim.cpp
+E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\lib_ObjLoader\ObjLoader_Seq.h(2,10): warning C4067: プリプロセッサ ディレクティブの後に余分な文字がありました - 改行が必要です
+E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\src\sim.cpp(288,14): warning C4101: 'pitch': ローカル変数は 1 度も使われていません。
+E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\src\sim.cpp(288,8): warning C4101: 'roll': ローカル変数は 1 度も使われていません。
+E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\src\sim.cpp(286,8): warning C4101: 'ax': ローカル変数は 1 度も使われていません。
+E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\src\sim.cpp(286,12): warning C4101: 'ay': ローカル変数は 1 度も使われていません。
+E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\src\sim.cpp(286,16): warning C4101: 'az': ローカル変数は 1 度も使われていません。
+E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\src\sim.cpp(288,21): warning C4101: 'yaw': ローカル変数は 1 度も使われていません。
+E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\src\sim.cpp(335,14): warning C4101: 'pitch': ローカル変数は 1 度も使われていません。
+E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\src\sim.cpp(335,8): warning C4101: 'roll': ローカル変数は 1 度も使われていません。
+E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\src\sim.cpp(333,8): warning C4101: 'ax': ローカル変数は 1 度も使われていません。
+E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\src\sim.cpp(334,8): warning C4101: 'gx': ローカル変数は 1 度も使われていません。
+E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\src\sim.cpp(334,16): warning C4101: 'gz': ローカル変数は 1 度も使われていません。
+E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\src\sim.cpp(333,12): warning C4101: 'ay': ローカル変数は 1 度も使われていません。
+E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\src\sim.cpp(333,16): warning C4101: 'az': ローカル変数は 1 度も使われていません。
+E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\src\sim.cpp(335,21): warning C4101: 'yaw': ローカル変数は 1 度も使われていません。
+E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\src\sim.cpp(334,12): warning C4101: 'gy': ローカル変数は 1 度も使われていません。
+  cylindrical.cpp
+  hmd.cpp
+  keyboard.cpp
+  main.cpp
+  mouse.cpp
+  projview.cpp
+  stereo.cpp
+  コードを生成中...
   libpng16.lib(pngread.obj) : MSIL .netmodule または /GL を伴ってコンパイルされたモジュールが見つかりました。/LTCG を使用して再開始してください。リンカーのパフォーマンスを向上させるためには、コマンドラインに /LTCG を追加してください。
 LINK : warning LNK4075: /INCREMENTAL は /LTCG の指定によって無視されます。
      ライブラリ E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\Debug\vrframe2020_v1.lib とオブジェクト E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\Debug\vrframe2020_v1.exp を作成中
