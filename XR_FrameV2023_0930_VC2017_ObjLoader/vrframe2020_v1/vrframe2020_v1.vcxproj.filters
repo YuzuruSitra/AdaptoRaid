@@ -153,6 +153,9 @@
     <ClCompile Include="FrameRateCounter.cpp">
       <Filter>ソース ファイル\common</Filter>
     </ClCompile>
+    <ClCompile Include="WaitProcess.cpp">
+      <Filter>ソース ファイル\common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\common.h">
@@ -264,6 +267,9 @@
       <Filter>ヘッダー ファイル\ObjLoader</Filter>
     </ClInclude>
     <ClInclude Include="FrameRateCounter.h">
+      <Filter>ヘッダー ファイル\common</Filter>
+    </ClInclude>
+    <ClInclude Include="WaitProcess.h">
       <Filter>ヘッダー ファイル\common</Filter>
     </ClInclude>
   </ItemGroup>

@@ -19,7 +19,15 @@ void PreDraw( void );
 void PostDraw( void );
 void DrawScene( void );
 void MovingFort( void );
+void FortBulletMove( void );
+void FortShooting( void );
 void MovingEnemies( void );
+void EnemyShooting( void );
+void EnemyBulletMove( void );
+void OnCollision( void );
+void StateRun( void );
+int SelectWaitClass( void );
+
 //void Lighting( void );
 //void HeadLight( void );
 /*
@@ -32,6 +40,15 @@ void MovingEnemies( void );
 
 //////// 侵略者
 #define N_ENEMIES 24
+#define N_ENEMY_BULLETS 5
+
+//////// プレイヤーの弾
+#define FORT_BULLETS 5
+
+// シールド
+#define SHIELDS 12
+//////// WaitProcessクラスの在庫
+#define STOCK_WAITPROCESS 10
 
 //-------- simulation data
 typedef struct {
@@ -55,7 +72,11 @@ typedef struct {
 	ObjDataT player; /////◆プレイヤ（の足元★）をあらわすオブジェクト
 
 	ObjDataT enemies[N_ENEMIES];
+	ObjDataT enemyBullets[N_ENEMY_BULLETS];
 	ObjDataT fort; //砲台(プレイヤー)
+	ObjDataT fortTop; //砲台先端
+	ObjDataT fortBullets[FORT_BULLETS];
+	ObjDataT shields[SHIELDS]; // シールド
 
 	ObjDataT head;//★
 	ObjDataT body;

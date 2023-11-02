@@ -139,12 +139,13 @@ void charKeyDown( unsigned char key, int x, int y )
 		  keydata.arrowRight = true;
 		  break;
 	  case ' ':
-		  if (simdata.cube.base != NULL) {
-			  moveLocalToWorld(&simdata.cube);
-		  }
-		  else {
-			  moveWorldToLocal(&simdata.cube, &simdata.handR);
-		  }
+		  keydata.spaceKey = true;
+		  //if (simdata.cube.base != NULL) {
+			 // moveLocalToWorld(&simdata.cube);
+		  //}
+		  //else {
+			 // moveWorldToLocal(&simdata.cube, &simdata.handR);
+		  //}
 		  break;
       default:
         break;
@@ -180,6 +181,9 @@ void charKeyUp( unsigned char key, int x, int y )
 			break;
 		case 'd':
 			keydata.arrowRight = false;
+			break;
+		case ' ':
+			keydata.spaceKey = false;
 			break;
 		default:
 			break;

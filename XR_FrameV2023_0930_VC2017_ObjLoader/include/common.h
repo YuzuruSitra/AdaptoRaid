@@ -27,6 +27,7 @@ typedef struct {
 	float x, y;
 	bool charKey[128];//alpha-numeric printable ascii characters
 	bool arrowLeft, arrowUp, arrowRight, arrowDown;
+	bool spaceKey;
     bool funcKey[12]; //0:F1 - 11:F12
 	bool pageUp, pageDown;
 	bool home, end;

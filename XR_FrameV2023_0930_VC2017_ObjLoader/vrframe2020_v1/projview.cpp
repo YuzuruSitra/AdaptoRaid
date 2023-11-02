@@ -42,4 +42,5 @@ void Projection( void )
 {
 	//---- begin projection transformation
 	gluPerspective( 45.0, window.aspect, simdata.clip_near, simdata.clip_far );
+	//gluPerspective(60.0, window.aspect, simdata.clip_near, simdata.clip_far);
 }

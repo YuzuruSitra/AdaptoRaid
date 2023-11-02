@@ -17,9 +17,11 @@
 #include "tcpFunc.h"
 
 #include <FrameRateCounter.h>
+#include "WaitProcess.h"
 
-// グローバル変数として宣言
+// 追加クラスをインスタンス化
 FrameRateCounter frameRateCounter;
+WaitProcess waitProcess[STOCK_WAITPROCESS];
 //#include "SerialIO.h"
 //HANDLE comm;
 int comm;
@@ -53,7 +55,8 @@ ezTrackDataT *trackFootR = nullptr;
 ezTrackDataT *trackFootL = nullptr;
 //マーカが見えない場合などのダミーデータ{id,x,y,z,roll,pitch,yaw}
 ezTrackDataT localBase = { 0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
-ezTrackDataT localHead = { 0, 0.0, 1.5, 0.0, 0.0, 0.0, 0.0 };
+//ezTrackDataT localHead = { 0, 0.0, 1.5, 0.0, 0.0, 0.0, 0.0 };
+ezTrackDataT localHead = { 0, 0.0, 5.0, 0.0, 0.0, 0.0, 0.0 };
 ezTrackDataT localBody = { 0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
 ezTrackDataT localHandR = { 0, 0.25, 1.25, -0.5, 0.0, 0.0, 0.0 };
 ezTrackDataT localHandL = { 0,-0.25, 1.25, -0.5, 0.0, 0.0, 0.0 };
@@ -79,6 +82,9 @@ static void copyTrackToObj( ezTrackDataT *src, ObjDataT *dst )
 /*---------------------------------------------------------------- InitScene
  * InitScene:
  *--------*/
+
+const int enemyMaxRow = 6;
+
 void InitScene( void )
 {
 
@@ -153,7 +159,6 @@ void InitScene( void )
 	simdata.player.radius = 0.5;
 	
 
-
 	const float SET_POS_Z = -10.0;
 
 	// 砲台
@@ -164,20 +169,45 @@ void InitScene( void )
 	simdata.fort.state = 0;
 	simdata.fort.radius = 1.0;
 	simdata.fort.xsize = 2.0;
-	simdata.fort.ysize = 0.25;
+	simdata.fort.ysize = 0.3;
 	simdata.fort.zsize = 1.0;
 
+	setObjPos(&simdata.fortTop, 0.0, 0.25, SET_POS_Z);
+	setObjRot(&simdata.fortTop, 0.0, 0.0, 0.0);
+	setObjColor(&simdata.fortTop, 0.0, 0.8, 0.8);
+	simdata.fortTop.visible = true;
+	simdata.fortTop.state = 0;
+	simdata.fortTop.radius = 1.0;
+	simdata.fortTop.xsize = 0.6;
+	simdata.fortTop.ysize = 0.5;
+	simdata.fortTop.zsize = 1.0;
+	moveWorldToLocal(&simdata.fortTop, &simdata.fort);
+
+	// 砲台の弾
+	for (int i = 0; i < FORT_BULLETS; i++)
+	{
+		setObjPos(&simdata.fortBullets[i], 0.0, -1.0, SET_POS_Z);
+		setObjRot(&simdata.fortBullets[i], 0.0, 0.0, 0.0);
+		setObjColor(&simdata.fortBullets[i], 0.0, 0.8, 0.8);
+		simdata.fortBullets[i].visible = false;
+		simdata.fortBullets[i].state = 0;
+		simdata.fortBullets[i].radius = 0.2;
+
+		simdata.fortBullets[i].xsize = 0.25;
+		simdata.fortBullets[i].ysize = 0.5;
+		simdata.fortBullets[i].zsize = 0.25;
+	}
+
 	// 敵
-	const float CREVICE_X = 2;
-	const float CREVICE_Y = 1.5;
-	int rowCount = 6;
-	const float THRESHOLD_Y_POINT = 3;
-	const float THRESHOLD_X_POINT = rowCount / 2 * CREVICE_X - CREVICE_X / 2;
-	const float delayValue = 0.1f;
+	const float CREVICE_X = 1.5;
+	const float CREVICE_Y = 1.25;
+	const float THRESHOLD_Y_POINT = 6;
+	const float THRESHOLD_X_POINT = enemyMaxRow / 2 * CREVICE_X - CREVICE_X / 2;
+	const float delayValue = 0.2f;
 	for (int i = 0; i < N_ENEMIES; i++)
 	{
-		int countY = i / rowCount;
-		float setPosX = (i * CREVICE_X) - (countY * rowCount * CREVICE_X) - THRESHOLD_X_POINT;
+		int countY = i / enemyMaxRow;
+		float setPosX = (i * CREVICE_X) - (countY * enemyMaxRow * CREVICE_X) - THRESHOLD_X_POINT;
 		float setPosY = countY * CREVICE_Y + THRESHOLD_Y_POINT;
 
 		setObjPos(&simdata.enemies[i], setPosX, setPosY, SET_POS_Z);
@@ -202,6 +232,48 @@ void InitScene( void )
 		simdata.enemies[i].enemyGoRight = true;
 		simdata.enemies[i].enemyLastReachPoint = 0;// 左:0 右:1
 		simdata.enemies[i].enemyLine = countY;
+		simdata.enemies[i].enemyRow = i % enemyMaxRow;
+	}
+
+	// 敵の弾
+	for (int i = 0; i < N_ENEMY_BULLETS; i++)
+	{
+		setObjPos(&simdata.enemyBullets[i], 0.0, -1.0, SET_POS_Z);
+		setObjRot(&simdata.enemyBullets[i], 0.0, 0.0, 0.0);
+		setObjColor(&simdata.enemyBullets[i], 0.0, 1.0, 0.0);
+		simdata.enemyBullets[i].visible = false;
+		simdata.enemyBullets[i].state = 0;
+		simdata.enemyBullets[i].radius = 0.2;
+
+		simdata.enemyBullets[i].xsize = 0.25;
+		simdata.enemyBullets[i].ysize = 0.5;
+		simdata.enemyBullets[i].zsize = 0.25;
+	}
+
+	// シールド
+	const float PADDING = 0.75f;
+	const float SPACE = 2.0f;
+	const int SEPALATE_COUNT = 3;
+	const int FACTOR = SHIELDS / SEPALATE_COUNT;
+	const float ADJAST_X = (PADDING * SHIELDS + SPACE * FACTOR) / 2 + PADDING / 2;
+	float setPosX = -ADJAST_X;
+	for (int i = 0; i < SHIELDS; i++)
+	{
+		int tmp = i % FACTOR;
+		setPosX += PADDING;
+		if (tmp == 0) setPosX += SPACE;
+ 
+		setObjPos(&simdata.shields[i], setPosX, 2.0f, SET_POS_Z);
+		setObjRot(&simdata.shields[i], 0.0, 0.0, 0.0);
+		simdata.shields[i].xsize = 0.5;
+		simdata.shields[i].ysize = 0.5;
+		simdata.shields[i].zsize = 0.5;
+
+		setObjColor(&simdata.shields[i], 0.9, 0.3, 0.0);
+		// 当たり判定
+		simdata.shields[i].radius = 0.5;
+		simdata.shields[i].state = 0;
+		simdata.shields[i].visible = true;
 	}
 	
 	//右手（ローカル座標）をプレイヤの子座標系とする
@@ -448,6 +520,12 @@ void GetDataFromArduino( vector_t *acc, euler_t *rot, euler_t *gyro )
 float deltaTime;
 // ゲームの横幅
 const float LANGE_POS_X = 8;
+// 砲台の待機クラス選択初期化
+int useWaitfortShoot = STOCK_WAITPROCESS;
+// 敵射撃からの経過時間
+float enemyShootInterval = 2.0f;
+// 敵弾の待機クラス選択初期化
+int useWaitEnemyShoot = STOCK_WAITPROCESS;
 
 void UpdateScene( void )
 {
@@ -698,8 +776,14 @@ void UpdateScene( void )
 	if (deltaTime >= 0.1f) return;
 
 	MovingFort();
+	FortShooting();
+	FortBulletMove();
 	MovingEnemies();
-
+	EnemyShooting();
+	EnemyBulletMove();
+	
+	OnCollision();
+	StateRun();
     return;
 }
 
@@ -712,18 +796,64 @@ void MovingFort(void)
 	return;
 }
 
+// 砲台から攻撃
+void FortShooting(void)
+{
+	const float shootInterval = 0.25f;
+
+	// 待機処理
+	if (useWaitfortShoot == STOCK_WAITPROCESS) useWaitfortShoot = SelectWaitClass();
+	bool waiting = !waitProcess[useWaitfortShoot].WaitForTime(shootInterval, deltaTime);
+	if (waiting) return;
+	// プレイヤーの入力
+	if (!keydata.spaceKey) return;
+	// 非稼働の弾を検索
+	int target = FORT_BULLETS;
+	for (int i = 0; i < FORT_BULLETS; i++)
+	{
+		if (simdata.fortBullets[i].visible) continue;
+		target = i;
+		break;
+	}
+	// 検索に失敗した場合は処理を終了する
+	if (target == FORT_BULLETS) return;
+	simdata.fortBullets[target].visible = true;
+	float setPosY = simdata.fort.pos.y + 1.0f;
+	setObjPos(&simdata.fortBullets[target], simdata.fort.pos.x, setPosY, simdata.fort.pos.z);
+	keydata.spaceKey = false;
+
+	// 待機クラス選択の初期化
+	useWaitfortShoot == STOCK_WAITPROCESS;
+	return;
+}
+
+// 砲弾の制御
+void FortBulletMove(void)
+{
+	const float SPEED = 10.0f;
+	for (int i = 0; i < FORT_BULLETS; i++)
+	{
+		if (!simdata.fortBullets[i].visible) continue;
+		simdata.fortBullets[i].pos.y += SPEED * deltaTime;
+		if (simdata.fortBullets[i].pos.y >= 10) simdata.fortBullets[i].visible = false;
+	}
+}
+
 // 敵の移動
 void MovingEnemies(void)
 {
 	for (int i = 0; i < N_ENEMIES; i++)
 	{
+		//if (!simdata.enemies[i].visible) continue;
+		// 初動delay
 		if (simdata.enemies[i].enemyMoveTime >= 0)
 		{
 			simdata.enemies[i].enemyMoveTime -= deltaTime;
 			continue;
 		}
 
-		float speed = 2.0f;
+		float speed = 1.0f;
+		float downPadding = 0.5f;
 
 		// 左右移動の切り替え制御
 		if ((simdata.enemies[i].pos.x > LANGE_POS_X && simdata.enemies[i].enemyLastReachPoint == 0) || (simdata.enemies[i].pos.x < -LANGE_POS_X && simdata.enemies[i].enemyLastReachPoint == 1))
@@ -736,6 +866,7 @@ void MovingEnemies(void)
 				if (simdata.enemies[i].enemyLine != line) continue;
 				simdata.enemies[i].enemyGoRight = !simdata.enemies[i].enemyGoRight;
 				simdata.enemies[i].enemyLastReachPoint = (simdata.enemies[i].enemyLastReachPoint == 0) ? 1 : 0;
+				simdata.enemies[i].pos.y -= downPadding;
 			}
 		}
 
@@ -747,6 +878,151 @@ void MovingEnemies(void)
 	return;
 }
 
+// 敵の攻撃
+void EnemyShooting(void)
+{
+	// 待機処理
+	if (useWaitEnemyShoot == STOCK_WAITPROCESS) useWaitEnemyShoot = SelectWaitClass();
+	bool waiting = !waitProcess[useWaitEnemyShoot].WaitForTime(enemyShootInterval, deltaTime);
+	if (waiting) return;
+
+	// 底面にいる中から射撃する敵を選定
+	int atackEnemy = diceRandom(0, enemyMaxRow - 1);
+	
+	for (int i = 0; i < N_ENEMIES; i++)
+	{
+		if (simdata.enemies[i].enemyRow != atackEnemy || !simdata.enemies[i].visible) continue;	
+		// 非稼働の弾を検索
+		int target = N_ENEMY_BULLETS;
+		for (int i = 0; i < N_ENEMY_BULLETS; i++)
+		{
+			if (simdata.enemyBullets[i].visible) continue;
+			target = i;
+			break;
+		}
+		// 検索に失敗した場合は処理を終了する
+		if (target == N_ENEMY_BULLETS) return;
+		simdata.enemyBullets[target].visible = true;
+		float setPosY = simdata.enemies[i].pos.y - 1.0f;
+		setObjPos(&simdata.enemyBullets[target], simdata.enemies[i].pos.x, setPosY, simdata.enemies[i].pos.z);
+		enemyShootInterval = uniformRandom(0.2f, 1.2f);
+		// 待機クラス選択の初期化
+		useWaitEnemyShoot = STOCK_WAITPROCESS;
+		break;
+	}
+	return;
+}
+
+// 敵弾の制御
+void EnemyBulletMove(void)
+{
+	const float SPEED = 8.0f;
+	for (int i = 0; i < N_ENEMY_BULLETS; i++)
+	{
+		if (!simdata.enemyBullets[i].visible) continue;
+		simdata.enemyBullets[i].pos.y -= SPEED * deltaTime;
+		if (simdata.enemyBullets[i].pos.y <= -1) simdata.enemyBullets[i].visible = false;
+	}
+}
+
+// 当たり判定
+void OnCollision(void)
+{
+	// 砲弾のヒット判定
+	bool fortBulletHit = false;
+	for (int i = 0; i < FORT_BULLETS; i++)
+	{
+		if (!simdata.fortBullets[i].visible) continue;
+
+		// 敵のヒット判定
+		for (int j = 0; j < N_ENEMIES; j++)
+		{
+			if (!simdata.enemies[j].visible) continue;
+			fortBulletHit = isHit(&simdata.fortBullets[i], &simdata.enemies[j]);
+			if (!fortBulletHit) continue;
+			simdata.fortBullets[i].visible = false;
+			simdata.enemies[j].visible = false;
+		}
+
+		// シールドのヒット判定
+		bool shieldsHit = false;
+		for (int j = 0; j < SHIELDS; j++)
+		{
+			if (!simdata.shields[j].visible) continue;
+			shieldsHit = isHit(&simdata.shields[j], &simdata.fortBullets[i]);
+			if (!shieldsHit) continue;
+			simdata.shields[j].visible = false;
+			simdata.fortBullets[i].visible = false;
+		}
+	}
+
+	// 敵弾のヒット判定
+	for (int i = 0; i < N_ENEMY_BULLETS; i++)
+	{
+		if (!simdata.enemyBullets[i].visible) continue;
+
+		// シールドのヒット判定
+		bool shieldsHit = false;
+		for (int j = 0; j < SHIELDS; j++)
+		{
+			if (!simdata.shields[j].visible) continue;
+			shieldsHit = isHit(&simdata.shields[j], &simdata.enemyBullets[i]);
+			if (!shieldsHit) continue;
+			simdata.shields[j].visible = false;
+			simdata.enemyBullets[i].visible = false;
+		}
+
+		// 砲台のヒット判定
+		bool enemyBulletHit = isHit(&simdata.fort, &simdata.enemyBullets[i]) || isHit(&simdata.fortTop, &simdata.enemyBullets[i]);
+		if (simdata.fort.state == 0 && enemyBulletHit)
+		{
+			simdata.enemyBullets[i].visible = false;
+			simdata.fort.state = 1;
+		}
+	}
+}
+
+
+int useFortWaitClass = STOCK_WAITPROCESS;
+// 状態毎の処理
+void StateRun(void)
+{
+	// 砲台のヒット判定
+	switch (simdata.fort.state)
+	{
+		// 標準状態
+	case 0:
+		setObjColor(&simdata.fort, 0.0, 0.8, 0.8);
+		setObjColor(&simdata.fortTop, 0.0, 0.8, 0.8);
+		break;
+		// 被弾状態
+	case 1:
+		useFortWaitClass = SelectWaitClass();
+		if (useFortWaitClass != STOCK_WAITPROCESS) simdata.fort.state = 2;
+		break;
+	case 2:
+		setObjColor(&simdata.fort, 0.8, 0.2, 0.2);
+		setObjColor(&simdata.fortTop, 0.8, 0.2, 0.2);
+		if (waitProcess[useFortWaitClass].WaitForTime(0.75f, deltaTime))
+		{
+			simdata.fort.state = 0;
+			useFortWaitClass = STOCK_WAITPROCESS;
+		}
+		break;
+	}
+	return;
+}
+
+// 手の空いてるWaitProcessクラスを選定
+int SelectWaitClass()
+{
+	for (int i = 0; i < STOCK_WAITPROCESS; i++)
+	{
+		if (waitProcess[i].InWaitProcess) continue;
+		return i;
+	}
+	return STOCK_WAITPROCESS;
+}
 
 ////////
 void TermScene(void)

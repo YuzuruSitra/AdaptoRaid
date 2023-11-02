@@ -103,6 +103,7 @@
     <ClCompile Include="..\src\tcpFunc.cpp" />
     <ClCompile Include="FrameRateCounter.cpp" />
     <ClCompile Include="cylindrical.cpp" />
+    <ClCompile Include="WaitProcess.cpp" />
     <ClCompile Include="warptex.cpp" />
     <ClCompile Include="ezTrack.cpp" />
     <ClCompile Include="hmd.cpp" />
@@ -150,6 +151,7 @@
     <ClInclude Include="..\lib_ObjLoader\ThreedVector.h" />
     <ClInclude Include="config.h" />
     <ClInclude Include="FrameRateCounter.h" />
+    <ClInclude Include="WaitProcess.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

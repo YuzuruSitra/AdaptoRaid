@@ -208,25 +208,25 @@ void PostDraw(void)
 	glLoadIdentity();//初期化
 
 	//お好きに描画
-	char time_message[32];
-	sprintf(time_message, "time = %d", simdata.time );
-	glColor3f( 1.0, 1.0, 1.0 );
-	drawString(0.1, 0.1, 0.0, 0.25, 0.5, time_message );
+	//char time_message[32];
+	//sprintf(time_message, "time = %d", simdata.time );
+	//glColor3f( 1.0, 1.0, 1.0 );
+	//drawString(0.1, 0.1, 0.0, 0.25, 0.5, time_message );
 
-	char head_xyz[128];
-	sprintf(head_xyz, "POS: %8.3f\t%8.3f\t%8.3f", 
-		simdata.head.pos.x,
-		simdata.head.pos.y,
-		simdata.head.pos.z);
-	glColor3f( 1.0, 1.0, 1.0 );
-	drawString(0.1, 0.2, 0.0, 0.25, 0.5, head_xyz );
+	//char head_xyz[128];
+	//sprintf(head_xyz, "POS: %8.3f\t%8.3f\t%8.3f", 
+	//	simdata.head.pos.x,
+	//	simdata.head.pos.y,
+	//	simdata.head.pos.z);
+	//glColor3f( 1.0, 1.0, 1.0 );
+	//drawString(0.1, 0.2, 0.0, 0.25, 0.5, head_xyz );
 
-	sprintf(head_xyz, "ROT: %8.3f\t%8.3f\t%8.3f", 
-		simdata.head.rot.roll,
-		simdata.head.rot.pitch,
-		simdata.head.rot.yaw);
-	glColor3f( 1.0, 1.0, 1.0 );
-	drawString(0.1, 0.3, 0.0, 0.25, 0.5, head_xyz );
+	//sprintf(head_xyz, "ROT: %8.3f\t%8.3f\t%8.3f", 
+	//	simdata.head.rot.roll,
+	//	simdata.head.rot.pitch,
+	//	simdata.head.rot.yaw);
+	//glColor3f( 1.0, 1.0, 1.0 );
+	//drawString(0.1, 0.3, 0.0, 0.25, 0.5, head_xyz );
 }
 
 // 砲台(プレイヤー)の描画
@@ -240,12 +240,48 @@ void drawFort(void)
 	glutWireCube(simdata.fort.radius);
 }
 
+void drawFortTop(void)
+{
+	glTranslatef(0.0, 0.0, 0.0);   //オブジェクト基準位置調整
+	glRotatef(0.0, 0.0, 1.0, 0.0); //オブジェクト基準姿勢調整：ヨー角
+	glRotatef(0.0, 1.0, 0.0, 0.0); //オブジェクト基準姿勢調整：ピッチ角
+	glRotatef(0.0, 0.0, 0.0, 1.0); //オブジェクト基準姿勢調整：ロール角
+	glutSolidCube(1.0);
+	glutWireCube(simdata.fortTop.radius);
+}
+
+// 砲台の弾の描画
+void drawFortBullets(void)
+{
+	for (int i = 0; i < FORT_BULLETS; i++)
+	{
+		if (!simdata.fortBullets[i].visible) continue;
+
+		glPushMatrix();
+		{
+			applyObjTransform(&simdata.fortBullets[i]);
+			applyObjColor(&simdata.fortBullets[i]);
+
+			glScalef(simdata.fortBullets[i].xsize, simdata.fortBullets[i].ysize, simdata.fortBullets[i].zsize);
+			glTranslatef(0.0, 0.0, 0.0);    //オブジェクト基準位置調整
+			glRotatef(0.0, 0.0, 1.0, 0.0);  //オブジェクト基準姿勢調整：ヨー角
+			glRotatef(180.0, 1.0, 0.0, 0.0); //オブジェクト基準姿勢調整：ピッチ角
+			glRotatef(0.0, 0.0, 0.0, 1.0);  //オブジェクト基準姿勢調整：ロール角
+
+			glutSolidCube(1);
+			glutWireCube(simdata.fortBullets[i].radius);
+		}
+		glPopMatrix();
+	}
+}
+
+
 // 侵略者の描画
 void drawEnemies(void)
 {
 	for (int i = 0; i < N_ENEMIES; i++)
 	{
-		if (!simdata.enemies[i].visible) return;
+		if (!simdata.enemies[i].visible) continue;
 		
 		glPushMatrix();
 		{
@@ -260,6 +296,56 @@ void drawEnemies(void)
 
 			glutSolidCube(1);
 			glutWireCube(simdata.enemies[i].radius);
+		}
+		glPopMatrix();
+	}
+}
+
+// 侵略者の弾の描画
+void drawEnemyBullets(void)
+{
+	for (int i = 0; i < N_ENEMY_BULLETS; i++)
+	{
+		if (!simdata.enemyBullets[i].visible) continue;
+
+		glPushMatrix();
+		{
+			applyObjTransform(&simdata.enemyBullets[i]);
+			applyObjColor(&simdata.enemyBullets[i]);
+
+			glScalef(simdata.enemyBullets[i].xsize, simdata.enemyBullets[i].ysize, simdata.enemyBullets[i].zsize);
+			glTranslatef(0.0, 0.0, 0.0);    //オブジェクト基準位置調整
+			glRotatef(0.0, 0.0, 1.0, 0.0);  //オブジェクト基準姿勢調整：ヨー角
+			glRotatef(180.0, 1.0, 0.0, 0.0); //オブジェクト基準姿勢調整：ピッチ角
+			glRotatef(0.0, 0.0, 0.0, 1.0);  //オブジェクト基準姿勢調整：ロール角
+
+			glutSolidCube(1);
+			glutWireCube(simdata.enemyBullets[i].radius);
+		}
+		glPopMatrix();
+	}
+}
+
+// シールドの描画
+void drawShields(void)
+{
+	for (int i = 0; i < SHIELDS; i++)
+	{
+		if (!simdata.shields[i].visible) continue;
+
+		glPushMatrix();
+		{
+			applyObjTransform(&simdata.shields[i]);
+			applyObjColor(&simdata.shields[i]);
+
+			glScalef(simdata.shields[i].xsize, simdata.shields[i].ysize, simdata.shields[i].zsize);
+			glTranslatef(0.0, 0.0, 0.0);    //オブジェクト基準位置調整
+			glRotatef(0.0, 0.0, 1.0, 0.0);  //オブジェクト基準姿勢調整：ヨー角
+			glRotatef(180.0, 1.0, 0.0, 0.0); //オブジェクト基準姿勢調整：ピッチ角
+			glRotatef(0.0, 0.0, 0.0, 1.0);  //オブジェクト基準姿勢調整：ロール角
+
+			glutSolidCube(1);
+			glutWireCube(simdata.shields[i].radius);
 		}
 		glPopMatrix();
 	}
@@ -283,7 +369,7 @@ void DrawScene( void )
 	glEnable( GL_LIGHTING );
 
 	// glPushMatrix();
-	//applyObjTransform( &simdata.player );
+	// applyObjTransform( &simdata.player );
 	// drawHandL();
 	// drawHandR();
 
@@ -300,7 +386,8 @@ void DrawScene( void )
 	//}
 	//glPopMatrix();
 
-	///////fortの描画
+
+	// fortの描画
 	glPushMatrix();
 	{
 		applyObjTransform( &simdata.fort );
@@ -310,8 +397,21 @@ void DrawScene( void )
 	}
 	glPopMatrix();
 
+	glPushMatrix();
+	{
+		applyObjTransform(&simdata.fortTop);
+		applyObjColor(&simdata.fortTop);
+		glScalef(simdata.fortTop.xsize, simdata.fortTop.ysize, simdata.fortTop.zsize);
+		drawFortTop();
+	}
+	glPopMatrix();
+
+	drawFortBullets();
 
 	drawEnemies();
+	drawEnemyBullets();
+
+	drawShields();
 
 	/*
 	//// プレイヤを描画する
