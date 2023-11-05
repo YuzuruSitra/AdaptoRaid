@@ -521,7 +521,7 @@ float deltaTime;
 // ゲームの横幅
 const float LANGE_POS_X = 8;
 // 砲台の待機クラス選択初期化
-int useWaitfortShoot = STOCK_WAITPROCESS;
+int useWaitFortShoot = STOCK_WAITPROCESS;
 // 敵射撃からの経過時間
 float enemyShootInterval = 2.0f;
 // 敵弾の待機クラス選択初期化
@@ -802,8 +802,8 @@ void FortShooting(void)
 	const float shootInterval = 0.25f;
 
 	// 待機処理
-	if (useWaitfortShoot == STOCK_WAITPROCESS) useWaitfortShoot = SelectWaitClass();
-	bool waiting = !waitProcess[useWaitfortShoot].WaitForTime(shootInterval, deltaTime);
+	if (useWaitFortShoot == STOCK_WAITPROCESS) useWaitFortShoot = SelectWaitClass();
+	bool waiting = !waitProcess[useWaitFortShoot].WaitForTime(shootInterval, deltaTime);
 	if (waiting) return;
 	// プレイヤーの入力
 	if (!keydata.spaceKey) return;
@@ -823,7 +823,7 @@ void FortShooting(void)
 	keydata.spaceKey = false;
 
 	// 待機クラス選択の初期化
-	useWaitfortShoot == STOCK_WAITPROCESS;
+	useWaitFortShoot == STOCK_WAITPROCESS;
 	return;
 }
 
