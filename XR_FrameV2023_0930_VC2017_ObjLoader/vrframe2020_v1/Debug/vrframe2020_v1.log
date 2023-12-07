@@ -1,4 +1,4 @@
-﻿  main.cpp
+﻿  Meta_ai.cpp
   libpng16.lib(pngread.obj) : MSIL .netmodule または /GL を伴ってコンパイルされたモジュールが見つかりました。/LTCG を使用して再開始してください。リンカーのパフォーマンスを向上させるためには、コマンドラインに /LTCG を追加してください。
 LINK : warning LNK4075: /INCREMENTAL は /LTCG の指定によって無視されます。
      ライブラリ E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\Debug\vrframe2020_v1.lib とオブジェクト E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\Debug\vrframe2020_v1.exp を作成中

@@ -16,6 +16,7 @@ E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\src\ezImage\e
 E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\src\ezImage\image.cpp;E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\vrframe2020_v1\Debug\image.obj
 E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\src\ezMIDI.cpp;E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\vrframe2020_v1\Debug\ezMIDI.obj
 E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\src\ezUtil.cpp;E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\vrframe2020_v1\Debug\ezUtil.obj
+E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\src\FrameRateCounter.cpp;E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\vrframe2020_v1\Debug\FrameRateCounter.obj
 E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\src\GLMetaseq.c;E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\vrframe2020_v1\Debug\GLMetaseq.obj
 E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\src\InterSense\gyro.cpp;E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\vrframe2020_v1\Debug\gyro.obj
 E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\src\InterSense\isense.c;E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\vrframe2020_v1\Debug\isense.obj
@@ -25,9 +26,10 @@ E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\src\myShape.c
 E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\src\SerialIO.cpp;E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\vrframe2020_v1\Debug\SerialIO.obj
 E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\src\sim.cpp;E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\vrframe2020_v1\Debug\sim.obj
 E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\src\tcpFunc.cpp;E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\vrframe2020_v1\Debug\tcpFunc.obj
-E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\vrframe2020_v1\FrameRateCounter.cpp;E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\vrframe2020_v1\Debug\FrameRateCounter.obj
+E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\src\WaitProcess.cpp;E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\vrframe2020_v1\Debug\WaitProcess.obj
 E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\vrframe2020_v1\cylindrical.cpp;E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\vrframe2020_v1\Debug\cylindrical.obj
-E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\vrframe2020_v1\WaitProcess.cpp;E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\vrframe2020_v1\Debug\WaitProcess.obj
+E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\vrframe2020_v1\Meta_ai.cpp;E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\vrframe2020_v1\Debug\Meta_ai.obj
+E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\vrframe2020_v1\Qlearning.cpp;E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\vrframe2020_v1\Debug\Qlearning.obj
 E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\vrframe2020_v1\warptex.cpp;E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\vrframe2020_v1\Debug\warptex.obj
 E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\vrframe2020_v1\ezTrack.cpp;E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\vrframe2020_v1\Debug\ezTrack.obj
 E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\vrframe2020_v1\hmd.cpp;E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\vrframe2020_v1\Debug\hmd.obj

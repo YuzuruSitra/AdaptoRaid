@@ -16,12 +16,16 @@
 #include "depth.h"
 #include "tcpFunc.h"
 
-#include <FrameRateCounter.h>
+#include "FrameRateCounter.h"
 #include "WaitProcess.h"
+#include "Meta_ai.h"
+
 
 // 追加クラスをインスタンス化
 FrameRateCounter frameRateCounter;
 WaitProcess waitProcess[STOCK_WAITPROCESS];
+MetaAI metaAI;
+
 //#include "SerialIO.h"
 //HANDLE comm;
 int comm;
@@ -275,7 +279,11 @@ void InitScene( void )
 		simdata.shields[i].state = 0;
 		simdata.shields[i].visible = true;
 	}
-	
+
+	simdata.currentHitBullet = 0;
+	simdata.currentAllBullet = 0;
+	simdata.remainingEnemies = N_ENEMIES;
+
 	//右手（ローカル座標）をプレイヤの子座標系とする
 	setObjLocal( &simdata.handR, &simdata.player ); //★
 
@@ -526,6 +534,8 @@ int useWaitFortShoot = STOCK_WAITPROCESS;
 float enemyShootInterval = 2.0f;
 // 敵弾の待機クラス選択初期化
 int useWaitEnemyShoot = STOCK_WAITPROCESS;
+// 難易度調整の待機クラス初期化
+int useCalcDifficulty = STOCK_WAITPROCESS;
 
 void UpdateScene( void )
 {
@@ -781,7 +791,7 @@ void UpdateScene( void )
 	MovingEnemies();
 	EnemyShooting();
 	EnemyBulletMove();
-	
+	CalcDifficulty();
 	OnCollision();
 	StateRun();
     return;
@@ -820,6 +830,7 @@ void FortShooting(void)
 	simdata.fortBullets[target].visible = true;
 	float setPosY = simdata.fort.pos.y + 1.0f;
 	setObjPos(&simdata.fortBullets[target], simdata.fort.pos.x, setPosY, simdata.fort.pos.z);
+	simdata.currentAllBullet++;
 	keydata.spaceKey = false;
 
 	// 待機クラス選択の初期化
@@ -942,6 +953,8 @@ void OnCollision(void)
 			if (!fortBulletHit) continue;
 			simdata.fortBullets[i].visible = false;
 			simdata.enemies[j].visible = false;
+			simdata.currentHitBullet++;
+			simdata.remainingEnemies--;
 		}
 
 		// シールドのヒット判定
@@ -1010,6 +1023,26 @@ void StateRun(void)
 		}
 		break;
 	}
+	return;
+}
+
+// 難易度の遷移
+void CalcDifficulty(void)
+{
+	// 待機処理
+	if (useCalcDifficulty == STOCK_WAITPROCESS) useCalcDifficulty = SelectWaitClass();
+	bool waiting = !waitProcess[useCalcDifficulty].WaitForTime(3.0f, deltaTime);
+	if (waiting) return;
+	// 難易度調整処理
+	if (simdata.currentAllBullet == 0) simdata.currentAllBullet ++;
+	double level = metaAI.calculateDifficulty(simdata.currentHitBullet, simdata.currentAllBullet, simdata.remainingEnemies, N_ENEMIES);
+	printf("%lf\n", level);
+	// 値のリセット
+	simdata.currentHitBullet = 0;
+	simdata.currentAllBullet = 0;
+
+	// 待機クラス選択の初期化
+	useCalcDifficulty = STOCK_WAITPROCESS;
 	return;
 }
 

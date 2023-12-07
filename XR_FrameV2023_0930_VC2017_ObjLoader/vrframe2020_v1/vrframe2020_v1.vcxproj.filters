@@ -150,10 +150,16 @@
     <ClCompile Include="..\lib_ObjLoader\ThreedVector.cpp">
       <Filter>ソース ファイル\ObjLoader</Filter>
     </ClCompile>
-    <ClCompile Include="FrameRateCounter.cpp">
+    <ClCompile Include="..\src\WaitProcess.cpp">
       <Filter>ソース ファイル\common</Filter>
     </ClCompile>
-    <ClCompile Include="WaitProcess.cpp">
+    <ClCompile Include="Meta_ai.cpp">
+      <Filter>ソース ファイル\common</Filter>
+    </ClCompile>
+    <ClCompile Include="Qlearning.cpp">
+      <Filter>ソース ファイル\common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\FrameRateCounter.cpp">
       <Filter>ソース ファイル\common</Filter>
     </ClCompile>
   </ItemGroup>
@@ -266,10 +272,16 @@
     <ClInclude Include="..\lib_ObjLoader\ThreedVector.h">
       <Filter>ヘッダー ファイル\ObjLoader</Filter>
     </ClInclude>
-    <ClInclude Include="FrameRateCounter.h">
+    <ClInclude Include="..\src\WaitProcess.h">
       <Filter>ヘッダー ファイル\common</Filter>
     </ClInclude>
-    <ClInclude Include="WaitProcess.h">
+    <ClInclude Include="Meta_ai.h">
+      <Filter>ヘッダー ファイル\common</Filter>
+    </ClInclude>
+    <ClInclude Include="Qlearning.h">
+      <Filter>ヘッダー ファイル\common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\FrameRateCounter.h">
       <Filter>ヘッダー ファイル\common</Filter>
     </ClInclude>
   </ItemGroup>

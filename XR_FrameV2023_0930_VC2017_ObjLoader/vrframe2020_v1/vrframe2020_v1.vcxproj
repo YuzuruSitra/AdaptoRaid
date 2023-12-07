@@ -92,6 +92,7 @@
     <ClCompile Include="..\src\ezImage\image.cpp" />
     <ClCompile Include="..\src\ezMIDI.cpp" />
     <ClCompile Include="..\src\ezUtil.cpp" />
+    <ClCompile Include="..\src\FrameRateCounter.cpp" />
     <ClCompile Include="..\src\GLMetaseq.c" />
     <ClCompile Include="..\src\InterSense\gyro.cpp" />
     <ClCompile Include="..\src\InterSense\isense.c" />
@@ -101,9 +102,10 @@
     <ClCompile Include="..\src\SerialIO.cpp" />
     <ClCompile Include="..\src\sim.cpp" />
     <ClCompile Include="..\src\tcpFunc.cpp" />
-    <ClCompile Include="FrameRateCounter.cpp" />
+    <ClCompile Include="..\src\WaitProcess.cpp" />
     <ClCompile Include="cylindrical.cpp" />
-    <ClCompile Include="WaitProcess.cpp" />
+    <ClCompile Include="Meta_ai.cpp" />
+    <ClCompile Include="Qlearning.cpp" />
     <ClCompile Include="warptex.cpp" />
     <ClCompile Include="ezTrack.cpp" />
     <ClCompile Include="hmd.cpp" />
@@ -149,9 +151,11 @@
     <ClInclude Include="..\lib_ObjLoader\PngImage.h" />
     <ClInclude Include="..\lib_ObjLoader\TextureCoordinate.h" />
     <ClInclude Include="..\lib_ObjLoader\ThreedVector.h" />
+    <ClInclude Include="..\src\FrameRateCounter.h" />
+    <ClInclude Include="..\src\WaitProcess.h" />
     <ClInclude Include="config.h" />
-    <ClInclude Include="FrameRateCounter.h" />
-    <ClInclude Include="WaitProcess.h" />
+    <ClInclude Include="Meta_ai.h" />
+    <ClInclude Include="Qlearning.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
