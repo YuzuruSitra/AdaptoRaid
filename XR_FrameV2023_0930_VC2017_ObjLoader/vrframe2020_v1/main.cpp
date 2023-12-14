@@ -12,6 +12,8 @@
 #include "WarpTex.h"
 #include <iostream>
 
+#include "Qlearning.h"
+
 WarpTex g_DC, g_DC_right, g_DC_left;
 float g_cx = 0;
 float g_cy = 0;
@@ -309,6 +311,9 @@ int main( int argc, char *argv[] )
     InitScene(); //★状態の初期化
 
 	simdata.time = glutGet( GLUT_ELAPSED_TIME );
+
+	//QLearning qLearning;
+	//qLearning.train();
 
 	printf( "//////// プログラムを終了するときには[Q]を押してください////////\n" );
 	printf( "では、ENTERキーを押すとプログラムがスタートします\n" );
