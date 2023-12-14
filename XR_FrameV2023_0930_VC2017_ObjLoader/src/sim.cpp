@@ -16,22 +16,25 @@
 #include "depth.h"
 #include "tcpFunc.h"
 
-#include <FrameRateCounter.h>
+#include "FrameRateCounter.h"
 #include "WaitProcess.h"
+#include "Qlearning.h"
 
 // 追加クラスをインスタンス化
 FrameRateCounter frameRateCounter;
 WaitProcess waitProcess[STOCK_WAITPROCESS];
+QLearning qLearning;
+
 //#include "SerialIO.h"
 //HANDLE comm;
 int comm;
 
-inline float ObjX( ObjDataT *obj ){ return OBJ_X(obj);}
-inline float ObjY( ObjDataT *obj ){ return OBJ_Y(obj);}
-inline float ObjZ( ObjDataT *obj ){ return OBJ_Z(obj);}
-inline float ObjRoll( ObjDataT *obj ){ return OBJ_ROLL(obj);}
-inline float ObjPitch( ObjDataT *obj ){ return OBJ_PITCH(obj);}
-inline float ObjYaw( ObjDataT *obj ){ return OBJ_YAW(obj);}
+inline float ObjX(ObjDataT *obj) { return OBJ_X(obj); }
+inline float ObjY(ObjDataT *obj) { return OBJ_Y(obj); }
+inline float ObjZ(ObjDataT *obj) { return OBJ_Z(obj); }
+inline float ObjRoll(ObjDataT *obj) { return OBJ_ROLL(obj); }
+inline float ObjPitch(ObjDataT *obj) { return OBJ_PITCH(obj); }
+inline float ObjYaw(ObjDataT *obj) { return OBJ_YAW(obj); }
 
 SimDataT simdata; //SimDataT型構造体のデータを宣言
 extern MouseDataT mouse;
@@ -68,14 +71,14 @@ ezTrackDataT localFootL = { 0,-0.25, 0.0, -0.5, 0.0, 0.0, 0.0 };
 /*--------------------
  * copyTrackToObj
  */
-static void copyTrackToObj( ezTrackDataT *src, ObjDataT *dst )
+static void copyTrackToObj(ezTrackDataT *src, ObjDataT *dst)
 {
 	float pos[3], rot[3];
-	if( src == NULL ) return;
-	ezTrack_getPos( src, pos );
-	setObjPos( dst, pos );
-	ezTrack_getRot( src, rot );
-	setObjRot( dst, rot );
+	if (src == NULL) return;
+	ezTrack_getPos(src, pos);
+	setObjPos(dst, pos);
+	ezTrack_getRot(src, rot);
+	setObjRot(dst, rot);
 }
 
 
@@ -85,7 +88,7 @@ static void copyTrackToObj( ezTrackDataT *src, ObjDataT *dst )
 
 const int enemyMaxRow = 6;
 
-void InitScene( void )
+void InitScene(void)
 {
 
 #if MY_TCP_FLAG
@@ -126,20 +129,20 @@ void InitScene( void )
 	//////
 
 	///▼追加したオブジェクトの初期化
-	setObjPos( &simdata.cube, 0.0, 1.0, -1.0 );
-	setObjRot( &simdata.cube, 0.0, 0.0, 0.0 );
-    setObjColor( &simdata.cube, 0.5, 0.3, 0.2 );
+	setObjPos(&simdata.cube, 0.0, 1.0, -1.0);
+	setObjRot(&simdata.cube, 0.0, 0.0, 0.0);
+	setObjColor(&simdata.cube, 0.5, 0.3, 0.2);
 	simdata.cube.visible = true;
 	simdata.cube.state = 0; //////////////◆
-    simdata.cube.radius = 0.2;
+	simdata.cube.radius = 0.2;
 
 	simdata.cube.xsize = 0.6;
 	simdata.cube.ysize = 0.05;
 	simdata.cube.zsize = 0.25;
 
-	setObjPos( &simdata.sphere, 0.0, 1.2, -1.0 );
-	setObjRot( &simdata.sphere, 0.0, 0.0, 0.0 );
-	setObjColor( &simdata.sphere, 1.0, 0.5, 0.0 );
+	setObjPos(&simdata.sphere, 0.0, 1.2, -1.0);
+	setObjRot(&simdata.sphere, 0.0, 0.0, 0.0);
+	setObjColor(&simdata.sphere, 1.0, 0.5, 0.0);
 	simdata.sphere.visible = true;
 	simdata.sphere.state = 0;
 	simdata.sphere.radius = 0.125; //★◆04
@@ -148,16 +151,16 @@ void InitScene( void )
 	simdata.handL.radius = 0.125; //◆04
 	simdata.handR.state = 0;
 	simdata.handL.state = 0;
-	
-	setObjPos( &simdata.player, 0.0, 0.0, 0.0 );
-	setObjRot( &simdata.player, 0.0, 0.0, 0.0 );
-	setObjColor( &simdata.player, 0.0, 0.5, 1.0 );
+
+	setObjPos(&simdata.player, 0.0, 0.0, 0.0);
+	setObjRot(&simdata.player, 0.0, 0.0, 0.0);
+	setObjColor(&simdata.player, 0.0, 0.5, 1.0);
 	simdata.player.visible = true;
 	simdata.player.state = 0;
 	simdata.player.turn = 0.0;
 	simdata.player.move = 0.0;
 	simdata.player.radius = 0.5;
-	
+
 
 	const float SET_POS_Z = -10.0;
 
@@ -217,7 +220,7 @@ void InitScene( void )
 		simdata.enemies[i].zsize = 0.75;
 
 		//printf("enemies[%i]の X座標:%f Y座標:%f\n", i, setPosX, setPosY);
-	
+
 		simdata.enemies[i].move = 0.0;
 		simdata.enemies[i].turn = 0.0;
 
@@ -262,7 +265,7 @@ void InitScene( void )
 		int tmp = i % FACTOR;
 		setPosX += PADDING;
 		if (tmp == 0) setPosX += SPACE;
- 
+
 		setObjPos(&simdata.shields[i], setPosX, 2.0f, SET_POS_Z);
 		setObjRot(&simdata.shields[i], 0.0, 0.0, 0.0);
 		simdata.shields[i].xsize = 0.5;
@@ -275,25 +278,29 @@ void InitScene( void )
 		simdata.shields[i].state = 0;
 		simdata.shields[i].visible = true;
 	}
-	
+
+	simdata.currentHitBullet = 0;
+	simdata.currentAllBullet = 0;
+	simdata.destroyEnemies = 0;
+
 	//右手（ローカル座標）をプレイヤの子座標系とする
-	setObjLocal( &simdata.handR, &simdata.player ); //★
+	setObjLocal(&simdata.handR, &simdata.player); //★
 
 	//★左手も同様
-	setObjLocal( &simdata.handL, &simdata.player ); //★
+	setObjLocal(&simdata.handL, &simdata.player); //★
 
 	//頭をプレイヤーの子座標系にする
-	setObjLocal(&simdata.head, &simdata.player );
+	setObjLocal(&simdata.head, &simdata.player);
 
 	simdata.active_camera = &simdata.player;
 	//simdata.active_camera = NULL;
 	//プレイヤオブジェクトのアドレスをカメラのポインタに紐付ける
 
-	setObjColor( &simdata.handR, 0.0, 1.0, 0.0 ); //右手グリーン
-	setObjColor( &simdata.handL, 1.0, 0.0, 0.0 ); //左手レッド
+	setObjColor(&simdata.handR, 0.0, 1.0, 0.0); //右手グリーン
+	setObjColor(&simdata.handL, 1.0, 0.0, 0.0); //左手レッド
 
 #ifndef MREALMODE
-	tracker = new ezTracker( use_tracker ); //VICON使うときはtrue
+	tracker = new ezTracker(use_tracker); //VICON使うときはtrue
 	if (use_vicon) {
 		tracker->open("VICON", false); //識別名, Wフラグ(false:R/O)
 	}
@@ -302,27 +309,27 @@ void InitScene( void )
 	}
 	trackHead = &localHead;
 	trackBody = &localBody;
-    trackHandR = &localHandR;
+	trackHandR = &localHandR;
 	trackHandL = &localHandL;
 	trackBase = &localBase;
 	trackFootL = &localFootL;
 	trackFootR = &localFootR;
 
 	//★修正★UpdataSceneからコピー
-	copyTrackToObj( trackHead, &simdata.head );
-    copyTrackToObj( trackBody, &simdata.body );
-	copyTrackToObj( trackHandL, &simdata.handL );
-	copyTrackToObj( trackHandR, &simdata.handR );
-	copyTrackToObj( trackFootL, &simdata.footL );
-	copyTrackToObj( trackFootR, &simdata.footR );
+	copyTrackToObj(trackHead, &simdata.head);
+	copyTrackToObj(trackBody, &simdata.body);
+	copyTrackToObj(trackHandL, &simdata.handL);
+	copyTrackToObj(trackHandR, &simdata.handR);
+	copyTrackToObj(trackFootL, &simdata.footL);
+	copyTrackToObj(trackFootR, &simdata.footR);
 
 #else
 
 	///////////★
-	int i; 
+	int i;
 
 #endif
-	if( use_gyro ) InitGyro();
+	if (use_gyro) InitGyro();
 
 	//simdata.camR = new ezCamera();
 	//simdata.camR->open( 0, 640, 480, 30.0, GL_BGRA_EXT, "Microsoft LifeCam Rear"  );
@@ -342,7 +349,7 @@ void InitScene( void )
 	simdata.movie = new ezMovie("../images/test_images/result", 145, 6);
 	setObjPos(&simdata.movie_screen, 0.0, 1.0, -1.0);
 	setObjRot(&simdata.movie_screen, 0.0, 0.0, 0.0);
-	setObjColor(&simdata.movie_screen, 0.8, 0.8, 0.8 );
+	setObjColor(&simdata.movie_screen, 0.8, 0.8, 0.8);
 	setObjSize(&simdata.movie_screen, 0.4, 0.3, 0.1);
 	simdata.cube.visible = true;
 	simdata.cube.state = 0; //////////////◆
@@ -356,7 +363,7 @@ void InitScene( void )
 	*/
 #ifdef ARDUINO	
 	comm = 3;
-	OpenCOMDevice( comm,57600 );
+	OpenCOMDevice(comm, 57600);
 	/////////////////////////////////////////////////
 #endif
 	simdata.scale = 0;
@@ -456,9 +463,9 @@ int CopeSerialData3(unsigned char *buf, int len, vector_t *acc, euler_t *rot, eu
 	gyro[mpu].roll = ((float)data[3] / K - 1.0)*GYROMAX;
 	gyro[mpu].pitch = ((float)data[4] / K - 1.0)*GYROMAX;
 	gyro[mpu].yaw = ((float)data[5] / K - 1.0)*GYROMAX;
-	rot[mpu].roll =  ((float)data[6] / K - 1.0) * 180;
+	rot[mpu].roll = ((float)data[6] / K - 1.0) * 180;
 	rot[mpu].pitch = ((float)data[7] / K - 1.0) * 90;
-	rot[mpu].yaw =   ((float)data[8] / K - 1.0) * 180;
+	rot[mpu].yaw = ((float)data[8] / K - 1.0) * 180;
 
 	temp = ((float)data[9] / K - 1.0) * 100;
 
@@ -469,7 +476,7 @@ int CopeSerialData3(unsigned char *buf, int len, vector_t *acc, euler_t *rot, eu
 	return i;////////
 }
 
-void GetDataFromArduino( vector_t *acc, euler_t *rot, euler_t *gyro ) 
+void GetDataFromArduino(vector_t *acc, euler_t *rot, euler_t *gyro)
 {
 	unsigned char buf[2000];
 	/////////////////////////////////////////////////
@@ -478,7 +485,7 @@ void GetDataFromArduino( vector_t *acc, euler_t *rot, euler_t *gyro )
 
 	unsigned short len = 0;
 
-	len = CollectUARTData( comm, (char *)buf);
+	len = CollectUARTData(comm, (char *)buf);
 	loop++;
 
 	/*
@@ -497,7 +504,7 @@ void GetDataFromArduino( vector_t *acc, euler_t *rot, euler_t *gyro )
 		////printf("count %d/%d\n", count++, loop);
 		//CopeSerialData2(buf, len, acc, rot );
 		int stat;
-		stat = CopeSerialData3(&buf[head], len - head, acc, rot, gyro );
+		stat = CopeSerialData3(&buf[head], len - head, acc, rot, gyro);
 		if (stat < 1) break;
 		else head += stat;
 	}
@@ -526,11 +533,13 @@ int useWaitFortShoot = STOCK_WAITPROCESS;
 float enemyShootInterval = 2.0f;
 // 敵弾の待機クラス選択初期化
 int useWaitEnemyShoot = STOCK_WAITPROCESS;
+// 難易度調整の待機クラス初期化
+int useCalcDifficulty = STOCK_WAITPROCESS;
 
-void UpdateScene( void )
+void UpdateScene(void)
 {
 
-	simdata.time = glutGet( GLUT_ELAPSED_TIME );
+	simdata.time = glutGet(GLUT_ELAPSED_TIME);
 
 #if MY_TCP_FLAG
 	//////// データ更新 ////////	
@@ -553,7 +562,7 @@ void UpdateScene( void )
 	//////// 加速度と角加速度を取得
 	static vector_t acc[2];
 	static euler_t rot[2], gyro[2];
-	GetDataFromArduino( acc, rot, gyro);
+	GetDataFromArduino(acc, rot, gyro);
 	////////
 #endif
 
@@ -566,17 +575,17 @@ void UpdateScene( void )
 	}
 
 #ifdef MREALMODE
-	for( int i = 0; i< N_TARGET; i++ ){
-		TargetToObjData( &simdata.TargetList[i], &simdata.target[i] ); 
+	for (int i = 0; i < N_TARGET; i++) {
+		TargetToObjData(&simdata.TargetList[i], &simdata.target[i]);
 	}
-	TargetToObjData( &simdata.TargetList[0], &simdata.handR ); 
-	TargetToObjData( &simdata.TargetList[1], &simdata.handL ); 
-	TargetToObjData( &simdata.mrealCamera[0], &simdata.head );
+	TargetToObjData(&simdata.TargetList[0], &simdata.handR);
+	TargetToObjData(&simdata.TargetList[1], &simdata.handL);
+	TargetToObjData(&simdata.mrealCamera[0], &simdata.head);
 	//copyObj( &simdata.target[0], &simdata.handR );
 	//copyObj( &simdata.target[1], &simdata.handL );
 #else
 	//////// データ更新 ////////
-	if( use_tracker ){
+	if (use_tracker) {
 		//トラッカーからのデータをゲット
 		tracker->read(); //共有メモリからデータを読み出す
 		if (use_vicon) {
@@ -590,27 +599,27 @@ void UpdateScene( void )
 			trackHandL = tracker->getTrackData(2);
 		}
 		trackBody = tracker->getTrackData("Chest");
-		trackBase = tracker->getTrackData( "Candy" );
-		trackFootR = tracker->getTrackData( "RightFoot" );
-		trackFootL = tracker->getTrackData( "LeftFoot" );
-		
-		copyTrackToObj( trackHead, &simdata.head );
-		copyTrackToObj( trackBody, &simdata.body );
-		copyTrackToObj( trackHandL, &simdata.handL );
-		copyTrackToObj( trackHandR, &simdata.handR );
-		copyTrackToObj( trackFootL, &simdata.footL );
-		copyTrackToObj( trackFootR, &simdata.footR );
+		trackBase = tracker->getTrackData("Candy");
+		trackFootR = tracker->getTrackData("RightFoot");
+		trackFootL = tracker->getTrackData("LeftFoot");
+
+		copyTrackToObj(trackHead, &simdata.head);
+		copyTrackToObj(trackBody, &simdata.body);
+		copyTrackToObj(trackHandL, &simdata.handL);
+		copyTrackToObj(trackHandR, &simdata.handR);
+		copyTrackToObj(trackFootL, &simdata.footL);
+		copyTrackToObj(trackFootR, &simdata.footR);
 		//解説：構造体のポインタを引数とする
 		//&: アドレス（＝ポインタ）を渡すことを指定
 		simdata.handR.pos.z -= 0.5; //########
 		simdata.handL.pos.z -= 0.5; //########
 	}
-	else{
+	else {
 		//◆01◆コメント化
-		
+
 		//copyTrackToObj( trackHandL, &simdata.handL );
 		//copyTrackToObj( trackHandR, &simdata.handR );
-		
+
 		/*
 
 		//◆02◆マウスで右手handRを動かす
@@ -622,7 +631,7 @@ void UpdateScene( void )
 		simdata.handR.rot.roll = simdata.handR.rot.yaw - 30.0;
 		//Z座標はlocalHandRで初期設定のまま
 		//▲
-		
+
 		//◆03◆ついでに左手handLも動かす～右手と上下左右を逆にしたりする
 		//感度調整＋基準位置調整 ########
 		simdata.handL.pos.x = - mouse.x * 2.0 - 0.25; // mouse.x: -1.0（左端）～1.0（右端）
@@ -633,8 +642,8 @@ void UpdateScene( void )
 		//Z座標はlocalHandRで初期設定のまま
 		//Z座標はlocalHandLで初期設定のまま
 		//▲
-		
-		
+
+
 		////★追加
 		if (keydata.arrowUp) {
 			simdata.handL.pos.z -= 0.01; //###### VECTOR Z
@@ -645,10 +654,10 @@ void UpdateScene( void )
 		//////////★
 		*/
 	}
-	if( use_gyro ){
+	if (use_gyro) {
 		float rot[3];
-		UpdateGyro( rot );
-		setObjRot( &simdata.head, rot ); //////////VECTOR OBJ
+		UpdateGyro(rot);
+		setObjRot(&simdata.head, rot); //////////VECTOR OBJ
 	}
 #endif
 #ifdef ARDUINO
@@ -663,7 +672,7 @@ void UpdateScene( void )
 	simdata.handR.pos.y = acc[0].y * 0.1 + 1.0;
 	simdata.handR.pos.z = acc[0].z * 0.1 - 1.0;
 	/**/
-	setObjRot(&simdata.handR, rot[0].roll, rot[0].pitch, rot[0].yaw );
+	setObjRot(&simdata.handR, rot[0].roll, rot[0].pitch, rot[0].yaw);
 	////
 	/*
 	simdata.handL.pos.x = acc[1].x * 0.02 - 0.5;
@@ -672,7 +681,7 @@ void UpdateScene( void )
 	*/
 	/**/
 	simdata.handL.pos.x = acc[1].x * 0.1 - 0.5;
-	simdata.handL.pos.y = - acc[1].y * 0.1 + 1.0;
+	simdata.handL.pos.y = -acc[1].y * 0.1 + 1.0;
 	simdata.handL.pos.z = acc[1].z * 0.1 - 1.0;
 	/**/
 	setObjRot(&simdata.handL, rot[1].roll, rot[1].pitch, rot[1].yaw);
@@ -681,16 +690,16 @@ void UpdateScene( void )
 	//----------------------------------------------- マウスで移動する
 	simdata.player.turn = - 0.5 * mouse.xRel;
 	simdata.player.move = - 0.2 * mouse.yRel;
-	MoveObject( &simdata.player ); 
+	MoveObject( &simdata.player );
 	*/
 
 	//★定数として変数を使いたいときには「const」をつける
 	const float yon = 1.25, yoff = 1.15;
-	
+
 
 	//★前の値を保持したいときには「static」をつける
 	static float xo, zo;
-	
+
 
 	// フレームレートカウンターを更新
 	frameRateCounter.Update();
@@ -725,7 +734,7 @@ void UpdateScene( void )
 
 
 	//状態遷移のチェック、状態遷移、
-	
+
 	/*
 	//◆04
 	bool ishit;
@@ -771,7 +780,7 @@ void UpdateScene( void )
 
 	}
 	*/
-	
+
 	// フリーズ時の暴走ケア
 	if (deltaTime >= 0.1f) return;
 
@@ -781,10 +790,10 @@ void UpdateScene( void )
 	MovingEnemies();
 	EnemyShooting();
 	EnemyBulletMove();
-	
+	CalcDifficulty();
 	OnCollision();
 	StateRun();
-    return;
+	return;
 }
 
 // 砲台(プレイヤー)の移動
@@ -793,6 +802,7 @@ void MovingFort(void)
 	float speed = 4.0f;
 	if (keydata.arrowLeft && simdata.fort.pos.x > -LANGE_POS_X) simdata.fort.pos.x -= speed * deltaTime;
 	if (keydata.arrowRight && simdata.fort.pos.x < LANGE_POS_X) simdata.fort.pos.x += speed * deltaTime;
+	simdata.buttonPresses++;
 	return;
 }
 
@@ -807,6 +817,7 @@ void FortShooting(void)
 	if (waiting) return;
 	// プレイヤーの入力
 	if (!keydata.spaceKey) return;
+	simdata.buttonPresses++;
 	// 非稼働の弾を検索
 	int target = FORT_BULLETS;
 	for (int i = 0; i < FORT_BULLETS; i++)
@@ -820,6 +831,7 @@ void FortShooting(void)
 	simdata.fortBullets[target].visible = true;
 	float setPosY = simdata.fort.pos.y + 1.0f;
 	setObjPos(&simdata.fortBullets[target], simdata.fort.pos.x, setPosY, simdata.fort.pos.z);
+	simdata.currentAllBullet += 1;
 	keydata.spaceKey = false;
 
 	// 待機クラス選択の初期化
@@ -888,10 +900,10 @@ void EnemyShooting(void)
 
 	// 底面にいる中から射撃する敵を選定
 	int atackEnemy = diceRandom(0, enemyMaxRow - 1);
-	
+
 	for (int i = 0; i < N_ENEMIES; i++)
 	{
-		if (simdata.enemies[i].enemyRow != atackEnemy || !simdata.enemies[i].visible) continue;	
+		if (simdata.enemies[i].enemyRow != atackEnemy || !simdata.enemies[i].visible) continue;
 		// 非稼働の弾を検索
 		int target = N_ENEMY_BULLETS;
 		for (int i = 0; i < N_ENEMY_BULLETS; i++)
@@ -942,6 +954,8 @@ void OnCollision(void)
 			if (!fortBulletHit) continue;
 			simdata.fortBullets[i].visible = false;
 			simdata.enemies[j].visible = false;
+			simdata.currentHitBullet += 1;
+			simdata.destroyEnemies++;
 		}
 
 		// シールドのヒット判定
@@ -1010,6 +1024,31 @@ void StateRun(void)
 		}
 		break;
 	}
+	return;
+}
+
+// 難易度の遷移
+void CalcDifficulty(void)
+{
+	// 待機処理
+	if (useCalcDifficulty == STOCK_WAITPROCESS) useCalcDifficulty = SelectWaitClass();
+	bool waiting = !waitProcess[useCalcDifficulty].WaitForTime(3.0f, deltaTime);
+	if (waiting) return;
+	// 難易度調整処理
+	double hitRate;
+	if (simdata.currentAllBullet == 0) hitRate = 0;
+	else hitRate = simdata.currentHitBullet / simdata.currentAllBullet;
+	// プレイヤーの上手さを計算し、Q値を更新
+	qLearning.updateScores(hitRate, simdata.buttonPresses, simdata.destroyEnemies);
+	double playerSkill = qLearning.calculateSkill();
+	printf("Player Skill : %lf\n", playerSkill);
+	// 値のリセット
+	simdata.currentHitBullet = 0;
+	simdata.currentAllBullet = 0;
+	simdata.destroyEnemies = 0;
+
+	// 待機クラス選択の初期化
+	useCalcDifficulty = STOCK_WAITPROCESS;
 	return;
 }
 

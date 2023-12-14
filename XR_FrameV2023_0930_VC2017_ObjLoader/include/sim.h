@@ -10,23 +10,25 @@
 #include "tcpData.h"
 
 // sim.cpp
-void InitScene( void );
-void UpdateScene( void );
-void TermScene( void );
+void InitScene(void);
+void UpdateScene(void);
+void TermScene(void);
+void MovingFort(void);
+void FortBulletMove(void);
+void FortShooting(void);
+void MovingEnemies(void);
+void EnemyShooting(void);
+void EnemyBulletMove(void);
+void OnCollision(void);
+void StateRun(void);
+void CalcDifficulty(void);
+int SelectWaitClass(void);
 
 // draw.cpp
-void PreDraw( void );
-void PostDraw( void );
-void DrawScene( void );
-void MovingFort( void );
-void FortBulletMove( void );
-void FortShooting( void );
-void MovingEnemies( void );
-void EnemyShooting( void );
-void EnemyBulletMove( void );
-void OnCollision( void );
-void StateRun( void );
-int SelectWaitClass( void );
+void PreDraw(void);
+void PostDraw(void);
+void DrawScene(void);
+
 
 //void Lighting( void );
 //void HeadLight( void );
@@ -64,7 +66,16 @@ typedef struct {
 	float clip_far;
 	float air_color[4];
 	float sky_color[4];
-    //////// ユーザ定義のシーンについてのデータをここにまとめる
+
+	// 命中率
+	int currentHitBullet;
+	int currentAllBullet;
+	// 敵の残数
+	int destroyEnemies;
+	// ボタンの押した回数
+	int buttonPresses;
+
+	//////// ユーザ定義のシーンについてのデータをここにまとめる
 
 	ObjDataT cube; ///////◆キューブ
 	ObjDataT sphere; /////◆球体

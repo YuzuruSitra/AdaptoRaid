@@ -131,6 +131,15 @@
     <ClInclude Include="..\lib_ObjLoader\ThreedVector.h">
       <Filter>ヘッダー ファイル\ObjLoader</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\FrameRateCounter.h">
+      <Filter>ヘッダー ファイル\common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\QLearning.h">
+      <Filter>ヘッダー ファイル\common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\WaitProcess.h">
+      <Filter>ヘッダー ファイル\common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -219,6 +228,15 @@
     </ClCompile>
     <ClCompile Include="..\lib_ObjLoader\ThreedVector.cpp">
       <Filter>ソース ファイル\ObjLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\FrameRateCounter.cpp">
+      <Filter>ソース ファイル\common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\QLearning.cpp">
+      <Filter>ソース ファイル\common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\WaitProcess.cpp">
+      <Filter>ソース ファイル\common</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

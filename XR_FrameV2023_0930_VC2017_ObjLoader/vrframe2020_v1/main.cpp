@@ -92,7 +92,7 @@ void update( void )
 
 	//-------- sync
 	Sleep( 0 ); // NVIDIA Quadro
-	//Sleep( 16 ); // for cheap video chips @ ~60Hz
+	// Sleep( 16 ); // for cheap video chips @ ~60Hz
 
 	return;
 }
