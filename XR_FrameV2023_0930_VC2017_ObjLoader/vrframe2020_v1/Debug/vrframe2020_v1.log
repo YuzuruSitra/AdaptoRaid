@@ -62,22 +62,7 @@ E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\lib_ObjLoader
   SerialIO.cpp
   sim.cpp
 E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\lib_ObjLoader\ObjLoader_Seq.h(2,10): warning C4067: プリプロセッサ ディレクティブの後に余分な文字がありました - 改行が必要です
-E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\src\sim.cpp(383,14): warning C4101: 'pitch': ローカル変数は 1 度も使われていません。
-E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\src\sim.cpp(383,8): warning C4101: 'roll': ローカル変数は 1 度も使われていません。
-E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\src\sim.cpp(381,8): warning C4101: 'ax': ローカル変数は 1 度も使われていません。
-E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\src\sim.cpp(381,12): warning C4101: 'ay': ローカル変数は 1 度も使われていません。
-E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\src\sim.cpp(381,16): warning C4101: 'az': ローカル変数は 1 度も使われていません。
-E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\src\sim.cpp(383,21): warning C4101: 'yaw': ローカル変数は 1 度も使われていません。
-E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\src\sim.cpp(430,14): warning C4101: 'pitch': ローカル変数は 1 度も使われていません。
-E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\src\sim.cpp(430,8): warning C4101: 'roll': ローカル変数は 1 度も使われていません。
-E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\src\sim.cpp(428,8): warning C4101: 'ax': ローカル変数は 1 度も使われていません。
-E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\src\sim.cpp(429,8): warning C4101: 'gx': ローカル変数は 1 度も使われていません。
-E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\src\sim.cpp(429,16): warning C4101: 'gz': ローカル変数は 1 度も使われていません。
-E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\src\sim.cpp(428,12): warning C4101: 'ay': ローカル変数は 1 度も使われていません。
-E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\src\sim.cpp(428,16): warning C4101: 'az': ローカル変数は 1 度も使われていません。
-E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\src\sim.cpp(430,21): warning C4101: 'yaw': ローカル変数は 1 度も使われていません。
-E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\src\sim.cpp(429,12): warning C4101: 'gy': ローカル変数は 1 度も使われていません。
-E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\src\sim.cpp(838,19): warning C4553: '==': 式の結果が使用されていません。'=' を意図していますか?
+E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\src\sim.cpp(396,19): warning C4553: '==': 式の結果が使用されていません。'=' を意図していますか?
   tcpFunc.cpp
 E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\src\tcpFunc.cpp(85,34): warning C4996: 'inet_addr': Use inet_pton() or InetPton() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
   WaitProcess.cpp

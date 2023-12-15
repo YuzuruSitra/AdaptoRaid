@@ -29,23 +29,14 @@ QLearning qLearning;
 //HANDLE comm;
 int comm;
 
-inline float ObjX(ObjDataT *obj) { return OBJ_X(obj); }
-inline float ObjY(ObjDataT *obj) { return OBJ_Y(obj); }
-inline float ObjZ(ObjDataT *obj) { return OBJ_Z(obj); }
-inline float ObjRoll(ObjDataT *obj) { return OBJ_ROLL(obj); }
-inline float ObjPitch(ObjDataT *obj) { return OBJ_PITCH(obj); }
-inline float ObjYaw(ObjDataT *obj) { return OBJ_YAW(obj); }
-
 SimDataT simdata; //SimDataT型構造体のデータを宣言
 extern MouseDataT mouse;
 extern KeyDataT keydata; //★修正★
 
 #define MY_TCP_FLAG 0
-ezDepth *kinect = new ezDepth();
-TCPDataT tcpdata;
 ///////////////////////////////////////////////////////
 //トラッカーデバイスを有効にするフラグ
-//bool use_tracker = false; //有効にするときtrue
+
 
 ezTracker *tracker = nullptr; //共有メモリ経由でトラッカーの情報を得るオブジェクト
 //トラッカーから受け取ったデータへのポインタ
@@ -65,8 +56,6 @@ ezTrackDataT localHandR = { 0, 0.25, 1.25, -0.5, 0.0, 0.0, 0.0 };
 ezTrackDataT localHandL = { 0,-0.25, 1.25, -0.5, 0.0, 0.0, 0.0 };
 ezTrackDataT localFootR = { 0, 0.25, 0.0, -0.5, 0.0, 0.0, 0.0 };
 ezTrackDataT localFootL = { 0,-0.25, 0.0, -0.5, 0.0, 0.0, 0.0 };
-////////////////////////////////////////////////////////
-
 
 /*--------------------
  * copyTrackToObj
@@ -90,31 +79,6 @@ const int enemyMaxRow = 6;
 
 void InitScene(void)
 {
-
-#if MY_TCP_FLAG
-	//////
-	//以下TCP通信の設定
-	//initTCPClient(&tcpdata,"172.28.139.203");//受信用構造体データの初期化。アドレスは相手先のもの
-
-	initTCPClient(&tcpdata, "127.0.0.1");//通信用構造体データの初期化。アドレスは相手先のもの
-	ConnectTCPClient(&tcpdata);//サーバーに接続しにいく。
-
-	//リモート映像関連201870730追加
-	//colortex->Open(KINECT_WIDTH, KINECT_HEIGHT, GL_BGRA_EXT);
-	//depthtex->Open(KINECT_WIDTH, KINECT_HEIGHT, GL_DEPTH_COMPONENT);
-	//depthtex->Open( KINECT_WIDTH, KINECT_HEIGHT, GL_LUMINANCE); /////////////////////
-
-	tcpdata.data_recv = (void *)(&simdata.downdata);//受信用構造体の設定
-	tcpdata.data_send = (void *)(&simdata.updata);//送信用構造体の設定
-
-	tcpdata.datasize_recv = sizeof(DownDataT);//受信用構造体のデータサイズ取得
-	tcpdata.datasize_send = sizeof(UpDataT);//送信用構造体のデータサイズ取得
-
-	kinect->open(KINECT_WIDTH, KINECT_HEIGHT, 42.5, simdata.clip_near, simdata.clip_far);
-	kinect->attach(simdata.downdata.color, simdata.downdata.depth);
-
-	tcpdata.v_flag = true;//送信時メッセージを出すかどうかのフラグ(true:出すfalse:出さない)
-#endif
 	////// シーンデータの初期化
 	simdata.clip_far = 200.0; //◆ファークリッププレーン
 	simdata.clip_near = 0.1;
@@ -299,7 +263,7 @@ void InitScene(void)
 	setObjColor(&simdata.handR, 0.0, 1.0, 0.0); //右手グリーン
 	setObjColor(&simdata.handL, 1.0, 0.0, 0.0); //左手レッド
 
-#ifndef MREALMODE
+	// 設定周り
 	tracker = new ezTracker(use_tracker); //VICON使うときはtrue
 	if (use_vicon) {
 		tracker->open("VICON", false); //識別名, Wフラグ(false:R/O)
@@ -322,23 +286,7 @@ void InitScene(void)
 	copyTrackToObj(trackHandR, &simdata.handR);
 	copyTrackToObj(trackFootL, &simdata.footL);
 	copyTrackToObj(trackFootR, &simdata.footR);
-
-#else
-
-	///////////★
-	int i;
-
-#endif
 	if (use_gyro) InitGyro();
-
-	//simdata.camR = new ezCamera();
-	//simdata.camR->open( 0, 640, 480, 30.0, GL_BGRA_EXT, "Microsoft LifeCam Rear"  );
-	//simdata.camR->open( 0, 640, 480, 30.0, GL_BGRA_EXT, "ELECOM 5MP Webcam" ); //教室内標準装備カメラ
-	//simdata.camR->open( 0, 640, 480, 30.0, GL_BGRA_EXT, "IPEVO V4K" );
-
-	//simdata.camL = new ezCamera();
-	//simdata.camL->open( 1, 640, 480, 30.0, GL_BGRA_EXT, "ELECOM 5MP Webcam"  ); //教室内標準装備カメラ
-	//simdata.camL->open( 1, 640, 480, 30.0, GL_BGRA_EXT, "IPEVO V4K" );
 
 	if (usb_video) {
 		simdata.extvideo = new ezCamera();
@@ -355,17 +303,7 @@ void InitScene(void)
 	simdata.cube.state = 0; //////////////◆
 	simdata.cube.radius = 0.2;
 
-	//// InitSceneに追加する////////////////////////
-	/*
-	comm = ComInit("COM3");
-	//getchar(); ////////削除してよい
-	if (comm == INVALID_HANDLE_VALUE) exit(-1);
-	*/
-#ifdef ARDUINO	
-	comm = 3;
-	OpenCOMDevice(comm, 57600);
-	/////////////////////////////////////////////////
-#endif
+
 	simdata.scale = 0;
 	simdata.octabe = 5;
 
@@ -373,150 +311,6 @@ void InitScene(void)
 	simdata.midi = new ezMIDI(9);
 	//simdata.midi = new ezMIDI(10, 27 );
 
-	return;
-}
-
-void CopeSerialData2(unsigned char *buf, int len, vector_t *acc, euler_t *rot)
-{
-	float ax, ay, az;
-	float gx, gy, gz;
-	float roll, pitch, yaw;
-	float temp;
-
-	unsigned short data[10]; /////////
-
-	int i = 0;
-	if (buf[0] != 0xff) {//先頭が255でなかったら
-		//先頭がずれているので、いくつかデータを読み飛ばす
-
-		while (buf[i] != 0xff) {//255まで飛ばす
-			i++;
-			if (i > len) return;
-		}
-	}
-	i++;
-	unsigned char *p = &buf[i]; ////////
-
-	//buf[i]より後の数をbufbuf[0]の後に代入する
-	for (int j = 0; j < 10; j++) {
-		data[j] = (*p << 8) | *p;
-		p += 2;
-	}
-
-	const float ACCMAX = 20.0;
-	const float GYROMAX = 500.0;
-	const float K = 32767;
-
-	acc->x = ((float)data[0] / K - 1.0)* ACCMAX;
-	acc->y = ((float)data[1] / K - 1.0)*ACCMAX;
-	acc->z = ((float)data[2] / K - 1.0)*ACCMAX;
-	gx = ((float)data[3] / K - 1.0)*GYROMAX;
-	gy = ((float)data[4] / K - 1.0)*GYROMAX;
-	gz = ((float)data[5] / K - 1.0)*GYROMAX;
-	rot->roll = ((float)data[6] / K - 1.0) * 180;
-	rot->pitch = ((float)data[7] / K - 1.0) * 90;
-	rot->yaw = ((float)data[8] / K - 1.0) * 180;
-
-	temp = ((float)data[9] / K - 1.0) * 100;
-
-	//Sleep(0); //// 削除してよい
-	/////////////////////////////////////////////////////////
-}
-
-int CopeSerialData3(unsigned char *buf, int len, vector_t *acc, euler_t *rot, euler_t *gyro)
-{
-	float ax, ay, az;
-	float gx, gy, gz;
-	float roll, pitch, yaw;
-	float temp;
-	int mpu;
-
-	unsigned short data[10]; /////////
-
-	int i = 0;
-	if (buf[0] != 0xff) {//先頭が255でなかったら
-		//先頭がずれているので、いくつかデータを読み飛ばす
-
-		while (buf[i] != 0xff) {//255まで飛ばす
-			i++;
-			if (i > len) return 0; /////
-		}
-	}
-	i++;
-	mpu = buf[i]; ////////
-	i++; ////////
-	unsigned char *p = &buf[i];
-
-	//buf[i]より後の数をbufbuf[0]の後に代入する
-	for (int j = 0; j < 10; j++) {
-		data[j] = (*p << 8) | *p;
-		p += 2;
-	}
-
-	const float ACCMAX = 20.0;
-	const float GYROMAX = 500.0;
-	const float K = 32767;
-
-	acc[mpu].x = ((float)data[0] / K - 1.0)* ACCMAX;
-	acc[mpu].y = ((float)data[1] / K - 1.0)*ACCMAX;
-	acc[mpu].z = ((float)data[2] / K - 1.0)*ACCMAX;
-	gyro[mpu].roll = ((float)data[3] / K - 1.0)*GYROMAX;
-	gyro[mpu].pitch = ((float)data[4] / K - 1.0)*GYROMAX;
-	gyro[mpu].yaw = ((float)data[5] / K - 1.0)*GYROMAX;
-	rot[mpu].roll = ((float)data[6] / K - 1.0) * 180;
-	rot[mpu].pitch = ((float)data[7] / K - 1.0) * 90;
-	rot[mpu].yaw = ((float)data[8] / K - 1.0) * 180;
-
-	temp = ((float)data[9] / K - 1.0) * 100;
-
-	//Sleep(0); //// 削除してよい
-	/////////////////////////////////////////////////////////
-
-	i += 20; ////////
-	return i;////////
-}
-
-void GetDataFromArduino(vector_t *acc, euler_t *rot, euler_t *gyro)
-{
-	unsigned char buf[2000];
-	/////////////////////////////////////////////////
-	static int count = 0;
-	static int loop = 0;
-
-	unsigned short len = 0;
-
-	len = CollectUARTData(comm, (char *)buf);
-	loop++;
-
-	/*
-	system("cls");
-
-	for (int i = 0; i < len; i++) {
-		printf(" %02x", buf[i]);
-	}
-	printf("\n");
-	*/
-
-	int head = 0;////////
-	//if (len > 1)
-	while (len - head > 1) ////////
-	{
-		////printf("count %d/%d\n", count++, loop);
-		//CopeSerialData2(buf, len, acc, rot );
-		int stat;
-		stat = CopeSerialData3(&buf[head], len - head, acc, rot, gyro);
-		if (stat < 1) break;
-		else head += stat;
-	}
-	/*
-	else {
-		////printf("count %d/%d\t%d\n", count++, loop, len);
-	}
-	*/
-	////printf("ACC: %8.3f %8.3f %8.3f\n",   acc->x, acc->y, acc->z);
-	printf("ANGLE: %8.3f %8.3f %8.3f\n", rot->roll, rot->pitch, rot->yaw);
-
-	//Sleep(0);
 	return;
 }
 
@@ -541,248 +335,12 @@ void UpdateScene(void)
 
 	simdata.time = glutGet(GLUT_ELAPSED_TIME);
 
-#if MY_TCP_FLAG
-	//////// データ更新 ////////	
-	//ソケット通信
-	TCPRecv(&tcpdata);
-	//描画情報の更新
-
-	/*
-	colortex->Copy( simdata.downdata.color );
-	colortex->Update();
-	depthtex->Copy( (unsigned char *)simdata.downdata.depth);
-	*/
-
-	Sleep(0);
-	//TCPSend(&tcpdata);
-	printf("%08x\n", tcpdata.data_send);
-
-#endif
-#ifdef ARDUINO
-	//////// 加速度と角加速度を取得
-	static vector_t acc[2];
-	static euler_t rot[2], gyro[2];
-	GetDataFromArduino(acc, rot, gyro);
-	////////
-#endif
-
-	////simdata.movie->update(simdata.time); //
-
-	//simdata.camR->update();
-	//simdata.camL->update();
-	if (usb_video) {
-		simdata.extvideo->update();
-	}
-
-#ifdef MREALMODE
-	for (int i = 0; i < N_TARGET; i++) {
-		TargetToObjData(&simdata.TargetList[i], &simdata.target[i]);
-	}
-	TargetToObjData(&simdata.TargetList[0], &simdata.handR);
-	TargetToObjData(&simdata.TargetList[1], &simdata.handL);
-	TargetToObjData(&simdata.mrealCamera[0], &simdata.head);
-	//copyObj( &simdata.target[0], &simdata.handR );
-	//copyObj( &simdata.target[1], &simdata.handL );
-#else
-	//////// データ更新 ////////
-	if (use_tracker) {
-		//トラッカーからのデータをゲット
-		tracker->read(); //共有メモリからデータを読み出す
-		if (use_vicon) {
-			trackHead = tracker->getTrackData("CAP"); //VICONマーカの名前
-			trackHandR = tracker->getTrackData("TREE_A");
-			trackHandL = tracker->getTrackData("TREE_B");
-		}
-		else {
-			trackHead = tracker->getTrackData(0); //ARTOOLKITマーカの番号
-			trackHandR = tracker->getTrackData(1);
-			trackHandL = tracker->getTrackData(2);
-		}
-		trackBody = tracker->getTrackData("Chest");
-		trackBase = tracker->getTrackData("Candy");
-		trackFootR = tracker->getTrackData("RightFoot");
-		trackFootL = tracker->getTrackData("LeftFoot");
-
-		copyTrackToObj(trackHead, &simdata.head);
-		copyTrackToObj(trackBody, &simdata.body);
-		copyTrackToObj(trackHandL, &simdata.handL);
-		copyTrackToObj(trackHandR, &simdata.handR);
-		copyTrackToObj(trackFootL, &simdata.footL);
-		copyTrackToObj(trackFootR, &simdata.footR);
-		//解説：構造体のポインタを引数とする
-		//&: アドレス（＝ポインタ）を渡すことを指定
-		simdata.handR.pos.z -= 0.5; //########
-		simdata.handL.pos.z -= 0.5; //########
-	}
-	else {
-		//◆01◆コメント化
-
-		//copyTrackToObj( trackHandL, &simdata.handL );
-		//copyTrackToObj( trackHandR, &simdata.handR );
-
-		/*
-
-		//◆02◆マウスで右手handRを動かす
-		//感度調整＋基準位置調整 ########
-		simdata.handR.pos.x = mouse.x * 2.0 + 0.25; // mouse.x: -1.0（左端）～1.0（右端）
-		simdata.handR.pos.y = -mouse.y * 2.0 + 1.2; // mouse.y; -1.0（上端）～1.0（下端）
-		simdata.handR.rot.pitch = ( simdata.handR.pos.y - 1.2 ) * 100.0;
-		simdata.handR.rot.yaw = ( simdata.handR.pos.x - 0.25 ) * ( - 100.0 );
-		simdata.handR.rot.roll = simdata.handR.rot.yaw - 30.0;
-		//Z座標はlocalHandRで初期設定のまま
-		//▲
-
-		//◆03◆ついでに左手handLも動かす～右手と上下左右を逆にしたりする
-		//感度調整＋基準位置調整 ########
-		simdata.handL.pos.x = - mouse.x * 2.0 - 0.25; // mouse.x: -1.0（左端）～1.0（右端）
-		simdata.handL.pos.y = mouse.y * 2.0 + 1.2; // mouse.y; -1.0（上端）～1.0（下端）
-		simdata.handL.rot.pitch = ( simdata.handL.pos.y - 1.2 ) * 100.0;
-		simdata.handL.rot.yaw = ( simdata.handL.pos.x + 0.25 ) * ( - 100.0 );
-		simdata.handL.rot.roll = simdata.handL.rot.yaw + 30.0;
-		//Z座標はlocalHandRで初期設定のまま
-		//Z座標はlocalHandLで初期設定のまま
-		//▲
-
-
-		////★追加
-		if (keydata.arrowUp) {
-			simdata.handL.pos.z -= 0.01; //###### VECTOR Z
-		}
-		if (keydata.arrowDown) {
-			simdata.handL.pos.z += 0.01; //###### VECTOR Z
-		}
-		//////////★
-		*/
-	}
-	if (use_gyro) {
-		float rot[3];
-		UpdateGyro(rot);
-		setObjRot(&simdata.head, rot); //////////VECTOR OBJ
-	}
-#endif
-#ifdef ARDUINO
-	////// 手の動きを上書き
-	/*
-	simdata.handR.pos.x = acc[0].x * 0.02 + 0.5;
-	simdata.handR.pos.y = acc[0].y * 0.02 + 1.0;
-	simdata.handR.pos.z = acc[0].z * 0.02 - 1.0;
-	*/
-	/**/
-	simdata.handR.pos.x = acc[0].x * 0.1 + 0.5;
-	simdata.handR.pos.y = acc[0].y * 0.1 + 1.0;
-	simdata.handR.pos.z = acc[0].z * 0.1 - 1.0;
-	/**/
-	setObjRot(&simdata.handR, rot[0].roll, rot[0].pitch, rot[0].yaw);
-	////
-	/*
-	simdata.handL.pos.x = acc[1].x * 0.02 - 0.5;
-	simdata.handL.pos.y = acc[1].y * 0.02 + 1.0;
-	simdata.handL.pos.z = acc[1].z * 0.02 - 1.0;
-	*/
-	/**/
-	simdata.handL.pos.x = acc[1].x * 0.1 - 0.5;
-	simdata.handL.pos.y = -acc[1].y * 0.1 + 1.0;
-	simdata.handL.pos.z = acc[1].z * 0.1 - 1.0;
-	/**/
-	setObjRot(&simdata.handL, rot[1].roll, rot[1].pitch, rot[1].yaw);
-#endif
-	/*
-	//----------------------------------------------- マウスで移動する
-	simdata.player.turn = - 0.5 * mouse.xRel;
-	simdata.player.move = - 0.2 * mouse.yRel;
-	MoveObject( &simdata.player );
-	*/
-
-	//★定数として変数を使いたいときには「const」をつける
-	const float yon = 1.25, yoff = 1.15;
-
-
-	//★前の値を保持したいときには「static」をつける
-	static float xo, zo;
-
-
 	// フレームレートカウンターを更新
 	frameRateCounter.Update();
 	deltaTime = frameRateCounter.GetElapsedTime();
 
-
-	/*
-	//★左手の動作で移動する操作
-	switch (simdata.handL.state) {
-	case 0: //◆非移動モード
-		if (ObjY(&simdata.handL) > yon) {  ////////VECTOR Y
-			simdata.handL.state = 1;
-			xo = ObjX(&simdata.handL); ////////VECTOR X
-			zo = ObjZ(&simdata.handL); ////////VECTOR Z
-			setObjColor(&simdata.handL, 1.0, 1.0, 0.0);
-		}
-		break;
-	case 1: //◆移動モード
-		if (ObjY(&simdata.handL) < yoff) { ////////VECTOR Y
-			simdata.handL.state = 0;
-			setObjColor(&simdata.handL, 1.0, 0.0, 0.0);
-		}
-		//移動の処理
-		simdata.player.turn = deltaTime * -10.0 * (ObjX(&simdata.handL) - xo); ////////VECTOR X
-		simdata.player.move = deltaTime * -0.2 * (ObjZ(&simdata.handL) - zo); ////////VECTOR Z
-		//simdata.player.turn = -0.5 * (ObjX(&simdata.handL) - xo); ////////VECTOR X
-		//simdata.player.move = -0.2 * (ObjZ(&simdata.handL) - zo); ////////VECTOR Z
-		MoveObject(&simdata.player);
-		break;
-	}
-	*/
-
-
-	//状態遷移のチェック、状態遷移、
-
-	/*
-	//◆04
-	bool ishit;
-	switch (simdata.sphere.state) {
-	case 0://★右手から外れ、かつ右手に触れていない状態
-		ishit = isHit(&simdata.sphere, &simdata.handR);
-		if (ishit) {
-			setObjColor(&simdata.sphere, 0.0, 1.0, 0.5);
-
-			//◆05
-			simdata.sphere.state = 1;
-			moveWorldToLocal( &simdata.sphere, &simdata.handR );
-
-		}
-		else {
-			setObjColor(&simdata.sphere, 0.7, 0.7, 0.7);
-
-		}
-		break;
-	case 1: //◆06★右手に把持されている状態
-		ishit = isHit(&simdata.sphere, &simdata.handL);
-		if (ishit) {
-			setObjColor(&simdata.sphere, 1.0, 0.5, 0.0);
-			moveLocalToWorld(&simdata.sphere);
-			simdata.sphere.state = 2;//◆07 0 -> 2
-		}
-		break;
-	case 2://◆08 右手の把持から外れたが触っている状態
-		ishit = isHit(&simdata.sphere, &simdata.handR);
-		if (!ishit) {
-			setObjColor(&simdata.sphere, 0.7, 0.7, 0.7);
-			simdata.sphere.state = 0;
-		}
-		break;
-	}
-
-	if (isHitBox(&simdata.cube, &simdata.handR)) {
-		setObjColor(&simdata.cube, 1.0, 0.0, 0.0);
-		////simdata.movie->play(simdata.time);
-	}
-	else {
-		setObjColor(&simdata.cube, 0.0, 1.0, 0.0);
-
-	}
-	*/
-
 	// フリーズ時の暴走ケア
-	if (deltaTime >= 0.1f) return;
+	if (deltaTime >= 0.001f) return;
 
 	MovingFort();
 	FortShooting();
