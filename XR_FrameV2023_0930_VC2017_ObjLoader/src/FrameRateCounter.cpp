@@ -22,7 +22,7 @@ void FrameRateCounter::Update() {
     // フレームレートを表示
     float updateTime = difftime(currentTime, startTime);
     if (updateTime >= 1) {
-        PrintInfo();
+        // PrintInfo();
         startTime = currentTime;
         frameCount = 0;
     }

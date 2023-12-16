@@ -1,11 +1,19 @@
+// WaitProcess.h
+
 #pragma once
+#include <vector>
 
 class WaitProcess {
 private:
-    float remainingTime;
+    int arraySize;
+    std::vector<float> remainingTimes;
+    std::vector<bool> inWaitProcesses;
+    int ResizeArrays();
 
 public:
     WaitProcess();
-    bool InWaitProcess;
-    bool WaitForTime(float time, float deltaTime);
+    int SelectID();
+    bool WaitForTime(int id, float time, float deltaTime);
+    void StopWaiting(int id);
+    static constexpr int WAIT_ERROR_VALUE = -1;
 };

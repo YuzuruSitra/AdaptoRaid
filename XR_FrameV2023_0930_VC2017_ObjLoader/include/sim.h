@@ -22,7 +22,6 @@ void EnemyBulletMove(void);
 void OnCollision(void);
 void StateRun(void);
 void CalcDifficulty(void);
-int SelectWaitClass(void);
 
 // draw.cpp
 void PreDraw(void);
@@ -49,8 +48,6 @@ void DrawScene(void);
 
 // シールド
 #define SHIELDS 12
-//////// WaitProcessクラスの在庫
-#define STOCK_WAITPROCESS 10
 
 //-------- simulation data
 typedef struct {

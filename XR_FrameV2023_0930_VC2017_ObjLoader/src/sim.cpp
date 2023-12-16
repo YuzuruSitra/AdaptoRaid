@@ -22,7 +22,7 @@
 
 // 追加クラスをインスタンス化
 FrameRateCounter frameRateCounter;
-WaitProcess waitProcess[STOCK_WAITPROCESS];
+WaitProcess waitProcess;
 QLearning qLearning;
 
 //#include "SerialIO.h"
@@ -322,13 +322,14 @@ float deltaTime;
 // ゲームの横幅
 const float LANGE_POS_X = 8;
 // 砲台の待機クラス選択初期化
-int useWaitFortShoot = STOCK_WAITPROCESS;
+int useWaitFortShoot = waitProcess.WAIT_ERROR_VALUE;
 // 敵射撃からの経過時間
 float enemyShootInterval = 2.0f;
 // 敵弾の待機クラス選択初期化
-int useWaitEnemyShoot = STOCK_WAITPROCESS;
+int useWaitEnemyShoot = waitProcess.WAIT_ERROR_VALUE;
 // 難易度調整の待機クラス初期化
-int useCalcDifficulty = STOCK_WAITPROCESS;
+int useWaitCalcDifficulty = waitProcess.WAIT_ERROR_VALUE;
+int useFortWaitClass = waitProcess.WAIT_ERROR_VALUE;
 
 void UpdateScene(void)
 {
@@ -370,8 +371,8 @@ void FortShooting(void)
 	const float shootInterval = 0.25f;
 
 	// 待機処理
-	if (useWaitFortShoot == STOCK_WAITPROCESS) useWaitFortShoot = SelectWaitClass();
-	bool waiting = !waitProcess[useWaitFortShoot].WaitForTime(shootInterval, deltaTime);
+	if (useWaitFortShoot == waitProcess.WAIT_ERROR_VALUE) useWaitFortShoot = waitProcess.SelectID();
+	bool waiting = !waitProcess.WaitForTime(useWaitFortShoot, shootInterval, deltaTime);
 	if (waiting) return;
 	// プレイヤーの入力
 	if (!keydata.spaceKey) return;
@@ -393,7 +394,7 @@ void FortShooting(void)
 	keydata.spaceKey = false;
 
 	// 待機クラス選択の初期化
-	useWaitFortShoot == STOCK_WAITPROCESS;
+	useWaitFortShoot == waitProcess.WAIT_ERROR_VALUE;
 	return;
 }
 
@@ -452,8 +453,8 @@ void MovingEnemies(void)
 void EnemyShooting(void)
 {
 	// 待機処理
-	if (useWaitEnemyShoot == STOCK_WAITPROCESS) useWaitEnemyShoot = SelectWaitClass();
-	bool waiting = !waitProcess[useWaitEnemyShoot].WaitForTime(enemyShootInterval, deltaTime);
+	if (useWaitEnemyShoot == waitProcess.WAIT_ERROR_VALUE) useWaitEnemyShoot = waitProcess.SelectID();
+	bool waiting = !waitProcess.WaitForTime(useWaitEnemyShoot, enemyShootInterval, deltaTime);
 	if (waiting) return;
 
 	// 底面にいる中から射撃する敵を選定
@@ -477,7 +478,7 @@ void EnemyShooting(void)
 		setObjPos(&simdata.enemyBullets[target], simdata.enemies[i].pos.x, setPosY, simdata.enemies[i].pos.z);
 		enemyShootInterval = uniformRandom(0.2f, 1.2f);
 		// 待機クラス選択の初期化
-		useWaitEnemyShoot = STOCK_WAITPROCESS;
+		useWaitEnemyShoot = waitProcess.WAIT_ERROR_VALUE;
 		break;
 	}
 	return;
@@ -554,8 +555,6 @@ void OnCollision(void)
 	}
 }
 
-
-int useFortWaitClass = STOCK_WAITPROCESS;
 // 状態毎の処理
 void StateRun(void)
 {
@@ -567,18 +566,14 @@ void StateRun(void)
 		setObjColor(&simdata.fort, 0.0, 0.8, 0.8);
 		setObjColor(&simdata.fortTop, 0.0, 0.8, 0.8);
 		break;
-		// 被弾状態
 	case 1:
-		useFortWaitClass = SelectWaitClass();
-		if (useFortWaitClass != STOCK_WAITPROCESS) simdata.fort.state = 2;
-		break;
-	case 2:
+		if (useFortWaitClass == waitProcess.WAIT_ERROR_VALUE) useFortWaitClass = waitProcess.SelectID();
 		setObjColor(&simdata.fort, 0.8, 0.2, 0.2);
 		setObjColor(&simdata.fortTop, 0.8, 0.2, 0.2);
-		if (waitProcess[useFortWaitClass].WaitForTime(0.75f, deltaTime))
+		if (waitProcess.WaitForTime(useFortWaitClass, 0.75f, deltaTime))
 		{
 			simdata.fort.state = 0;
-			useFortWaitClass = STOCK_WAITPROCESS;
+			useFortWaitClass = waitProcess.WAIT_ERROR_VALUE;
 		}
 		break;
 	}
@@ -589,8 +584,8 @@ void StateRun(void)
 void CalcDifficulty(void)
 {
 	// 待機処理
-	if (useCalcDifficulty == STOCK_WAITPROCESS) useCalcDifficulty = SelectWaitClass();
-	bool waiting = !waitProcess[useCalcDifficulty].WaitForTime(3.0f, deltaTime);
+	if (useWaitCalcDifficulty == waitProcess.WAIT_ERROR_VALUE) useWaitCalcDifficulty = waitProcess.SelectID();
+	bool waiting = !waitProcess.WaitForTime(useWaitCalcDifficulty, 3.0f, deltaTime);
 	if (waiting) return;
 	// 難易度調整処理
 	double hitRate;
@@ -606,19 +601,8 @@ void CalcDifficulty(void)
 	simdata.destroyEnemies = 0;
 
 	// 待機クラス選択の初期化
-	useCalcDifficulty = STOCK_WAITPROCESS;
+	useWaitCalcDifficulty = waitProcess.WAIT_ERROR_VALUE;
 	return;
-}
-
-// 手の空いてるWaitProcessクラスを選定
-int SelectWaitClass()
-{
-	for (int i = 0; i < STOCK_WAITPROCESS; i++)
-	{
-		if (waitProcess[i].InWaitProcess) continue;
-		return i;
-	}
-	return STOCK_WAITPROCESS;
 }
 
 ////////
