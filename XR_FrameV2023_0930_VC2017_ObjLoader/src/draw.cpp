@@ -208,18 +208,15 @@ void PostDraw(void)
 	glLoadIdentity();//‰Šú‰»
 
 	//‚¨D‚«‚É•`‰æ
-	//char time_message[32];
-	//sprintf(time_message, "time = %d", simdata.time );
-	//glColor3f( 1.0, 1.0, 1.0 );
-	//drawString(0.1, 0.1, 0.0, 0.25, 0.5, time_message );
+	char score_message[32];
+	sprintf(score_message, "score = %d", simdata.score );
+	glColor3f( 1.0, 1.0, 1.0 );
+	drawString(0.1, 0.1, 0.0, 0.25, 0.5, score_message );
 
-	//char head_xyz[128];
-	//sprintf(head_xyz, "POS: %8.3f\t%8.3f\t%8.3f", 
-	//	simdata.head.pos.x,
-	//	simdata.head.pos.y,
-	//	simdata.head.pos.z);
-	//glColor3f( 1.0, 1.0, 1.0 );
-	//drawString(0.1, 0.2, 0.0, 0.25, 0.5, head_xyz );
+	char round_message[32];
+	sprintf(round_message, "round = %d", simdata.gameRound);
+	glColor3f(1.0, 1.0, 1.0);
+	drawString(0.1, 0.2, 0.0, 0.25, 0.5, round_message);
 
 	//sprintf(head_xyz, "ROT: %8.3f\t%8.3f\t%8.3f", 
 	//	simdata.head.rot.roll,

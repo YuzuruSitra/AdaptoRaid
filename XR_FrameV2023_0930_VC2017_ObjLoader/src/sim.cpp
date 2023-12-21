@@ -126,8 +126,84 @@ void InitScene(void)
 	simdata.player.radius = 0.5;
 
 
+	InitialSetting();
+
+	simdata.score = 0;
+	simdata.gameRound = 0;
+
+
+	//右手（ローカル座標）をプレイヤの子座標系とする
+	setObjLocal(&simdata.handR, &simdata.player); //★
+
+	//★左手も同様
+	setObjLocal(&simdata.handL, &simdata.player); //★
+
+	//頭をプレイヤーの子座標系にする
+	setObjLocal(&simdata.head, &simdata.player);
+
+	simdata.active_camera = &simdata.player;
+	//simdata.active_camera = NULL;
+	//プレイヤオブジェクトのアドレスをカメラのポインタに紐付ける
+
+	setObjColor(&simdata.handR, 0.0, 1.0, 0.0); //右手グリーン
+	setObjColor(&simdata.handL, 1.0, 0.0, 0.0); //左手レッド
+
+	// 設定周り
+	tracker = new ezTracker(use_tracker); //VICON使うときはtrue
+	if (use_vicon) {
+		tracker->open("VICON", false); //識別名, Wフラグ(false:R/O)
+	}
+	else {
+		tracker->open("ARTOOLKIT", false); //識別名, Wフラグ(false:R/O)
+	}
+	trackHead = &localHead;
+	trackBody = &localBody;
+	trackHandR = &localHandR;
+	trackHandL = &localHandL;
+	trackBase = &localBase;
+	trackFootL = &localFootL;
+	trackFootR = &localFootR;
+
+	//★修正★UpdataSceneからコピー
+	copyTrackToObj(trackHead, &simdata.head);
+	copyTrackToObj(trackBody, &simdata.body);
+	copyTrackToObj(trackHandL, &simdata.handL);
+	copyTrackToObj(trackHandR, &simdata.handR);
+	copyTrackToObj(trackFootL, &simdata.footL);
+	copyTrackToObj(trackFootR, &simdata.footR);
+	if (use_gyro) InitGyro();
+
+	if (usb_video) {
+		simdata.extvideo = new ezCamera();
+		simdata.extvideo->open(0, 640, 480, 30.0, GL_BGRA_EXT, "ELECOM 5MP Webcam");
+	}
+	CreateMyModels(); //★
+
+	simdata.movie = new ezMovie("../images/test_images/result", 145, 6);
+	setObjPos(&simdata.movie_screen, 0.0, 1.0, -1.0);
+	setObjRot(&simdata.movie_screen, 0.0, 0.0, 0.0);
+	setObjColor(&simdata.movie_screen, 0.8, 0.8, 0.8);
+	setObjSize(&simdata.movie_screen, 0.4, 0.3, 0.1);
+	simdata.cube.visible = true;
+	simdata.cube.state = 0; //////////////◆
+	simdata.cube.radius = 0.2;
+
+
+	simdata.scale = 0;
+	simdata.octabe = 5;
+
+	ezMIDI::Open(true); //polyphonic
+	simdata.midi = new ezMIDI(9);
+	//simdata.midi = new ezMIDI(10, 27 );
+
+	return;
+}
+
+void InitialSetting()
+{
 	const float SET_POS_Z = -10.0;
 
+	moveLocalToWorld(&simdata.fortTop);
 	// 砲台
 	setObjPos(&simdata.fort, 0.0, 0.0, SET_POS_Z);
 	setObjRot(&simdata.fort, 0.0, 0.0, 0.0);
@@ -246,72 +322,6 @@ void InitScene(void)
 	simdata.currentHitBullet = 0;
 	simdata.currentAllBullet = 0;
 	simdata.destroyEnemies = 0;
-
-	//右手（ローカル座標）をプレイヤの子座標系とする
-	setObjLocal(&simdata.handR, &simdata.player); //★
-
-	//★左手も同様
-	setObjLocal(&simdata.handL, &simdata.player); //★
-
-	//頭をプレイヤーの子座標系にする
-	setObjLocal(&simdata.head, &simdata.player);
-
-	simdata.active_camera = &simdata.player;
-	//simdata.active_camera = NULL;
-	//プレイヤオブジェクトのアドレスをカメラのポインタに紐付ける
-
-	setObjColor(&simdata.handR, 0.0, 1.0, 0.0); //右手グリーン
-	setObjColor(&simdata.handL, 1.0, 0.0, 0.0); //左手レッド
-
-	// 設定周り
-	tracker = new ezTracker(use_tracker); //VICON使うときはtrue
-	if (use_vicon) {
-		tracker->open("VICON", false); //識別名, Wフラグ(false:R/O)
-	}
-	else {
-		tracker->open("ARTOOLKIT", false); //識別名, Wフラグ(false:R/O)
-	}
-	trackHead = &localHead;
-	trackBody = &localBody;
-	trackHandR = &localHandR;
-	trackHandL = &localHandL;
-	trackBase = &localBase;
-	trackFootL = &localFootL;
-	trackFootR = &localFootR;
-
-	//★修正★UpdataSceneからコピー
-	copyTrackToObj(trackHead, &simdata.head);
-	copyTrackToObj(trackBody, &simdata.body);
-	copyTrackToObj(trackHandL, &simdata.handL);
-	copyTrackToObj(trackHandR, &simdata.handR);
-	copyTrackToObj(trackFootL, &simdata.footL);
-	copyTrackToObj(trackFootR, &simdata.footR);
-	if (use_gyro) InitGyro();
-
-	if (usb_video) {
-		simdata.extvideo = new ezCamera();
-		simdata.extvideo->open(0, 640, 480, 30.0, GL_BGRA_EXT, "ELECOM 5MP Webcam");
-	}
-	CreateMyModels(); //★
-
-	simdata.movie = new ezMovie("../images/test_images/result", 145, 6);
-	setObjPos(&simdata.movie_screen, 0.0, 1.0, -1.0);
-	setObjRot(&simdata.movie_screen, 0.0, 0.0, 0.0);
-	setObjColor(&simdata.movie_screen, 0.8, 0.8, 0.8);
-	setObjSize(&simdata.movie_screen, 0.4, 0.3, 0.1);
-	simdata.cube.visible = true;
-	simdata.cube.state = 0; //////////////◆
-	simdata.cube.radius = 0.2;
-
-
-	simdata.scale = 0;
-	simdata.octabe = 5;
-
-	ezMIDI::Open(true); //polyphonic
-	simdata.midi = new ezMIDI(9);
-	//simdata.midi = new ezMIDI(10, 27 );
-
-	return;
 }
 
 /*-------------------------------------------------------------- UpdateScene
@@ -330,6 +340,7 @@ int useWaitEnemyShoot = waitProcess.WAIT_ERROR_VALUE;
 // 難易度調整の待機クラス初期化
 int useWaitCalcDifficulty = waitProcess.WAIT_ERROR_VALUE;
 int useFortWaitClass = waitProcess.WAIT_ERROR_VALUE;
+int useResetWaitClass = waitProcess.WAIT_ERROR_VALUE;
 
 void UpdateScene(void)
 {
@@ -352,8 +363,11 @@ void UpdateScene(void)
 	CalcDifficulty();
 	OnCollision();
 	StateRun();
+	RestartGame();
+
 	return;
 }
+
 
 // 砲台(プレイヤー)の移動
 void MovingFort(void)
@@ -514,6 +528,7 @@ void OnCollision(void)
 			simdata.fortBullets[i].visible = false;
 			simdata.enemies[j].visible = false;
 			simdata.currentHitBullet += 1;
+			simdata.score += N_ENEMY_POINT;
 			simdata.destroyEnemies++;
 		}
 
@@ -603,6 +618,18 @@ void CalcDifficulty(void)
 	// 待機クラス選択の初期化
 	useWaitCalcDifficulty = waitProcess.WAIT_ERROR_VALUE;
 	return;
+}
+
+// リスタート
+void RestartGame()
+{
+	for (int i = 0; i < N_ENEMIES; i++) if (simdata.enemies[i].visible) return;
+	if (useResetWaitClass == waitProcess.WAIT_ERROR_VALUE) useResetWaitClass = waitProcess.SelectID();
+	bool waiting = !waitProcess.WaitForTime(useResetWaitClass, 3.0f, deltaTime);
+	if (waiting) return;
+	useResetWaitClass = waitProcess.WAIT_ERROR_VALUE;
+	simdata.gameRound += 1;
+	InitialSetting();
 }
 
 ////////

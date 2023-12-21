@@ -10,6 +10,7 @@
 #include "tcpData.h"
 
 // sim.cpp
+void InitialSetting(void);
 void InitScene(void);
 void UpdateScene(void);
 void TermScene(void);
@@ -22,6 +23,7 @@ void EnemyBulletMove(void);
 void OnCollision(void);
 void StateRun(void);
 void CalcDifficulty(void);
+void RestartGame(void);
 
 // draw.cpp
 void PreDraw(void);
@@ -42,6 +44,7 @@ void DrawScene(void);
 //////// 侵略者
 #define N_ENEMIES 24
 #define N_ENEMY_BULLETS 5
+#define N_ENEMY_POINT 100
 
 //////// プレイヤーの弾
 #define FORT_BULLETS 5
@@ -58,6 +61,8 @@ typedef struct {
 	ezCamera *extvideo; //外部ビデオデバイス
 
 	int time;
+	int score;
+	int gameRound;
 
 	float clip_near;
 	float clip_far;
@@ -67,10 +72,11 @@ typedef struct {
 	// 命中率
 	int currentHitBullet;
 	int currentAllBullet;
-	// 敵の残数
+	// 倒した敵数
 	int destroyEnemies;
 	// ボタンの押した回数
 	int buttonPresses;
+
 
 	//////// ユーザ定義のシーンについてのデータをここにまとめる
 
