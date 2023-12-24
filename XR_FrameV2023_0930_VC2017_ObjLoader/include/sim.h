@@ -22,7 +22,8 @@ void EnemyShooting(void);
 void EnemyBulletMove(void);
 void OnCollision(void);
 void StateRun(void);
-void CalcDifficulty(void);
+void CalcPlayerSkill(void);
+void CalcDifficulty(double playerSkill);
 void RestartGame(void);
 
 // draw.cpp
@@ -66,6 +67,14 @@ typedef struct {
 	int time;
 	int score;
 	int gameRound;
+
+	float enemyMoveSpeed;
+	float enemyShootInterval;
+
+	double CurrentHitRate;
+	double CurrentPushRate;
+	double CurrentKillRate;
+	double PlayerSkill;
 
 	float clip_near;
 	float clip_far;

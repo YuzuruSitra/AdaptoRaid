@@ -208,15 +208,60 @@ void PostDraw(void)
 	glLoadIdentity();//‰Šú‰»
 
 	//‚¨D‚«‚É•`‰æ
-	char score_message[32];
-	sprintf(score_message, "score = %d", simdata.score );
-	glColor3f( 1.0, 1.0, 1.0 );
-	drawString(0.1, 0.1, 0.0, 0.25, 0.5, score_message );
+	char game_message[32];
+	sprintf(game_message, "Game info");
+	glColor3f(0.8, 0.1, 0.1);
+	drawString(0.05, 0.23, 0.0, 0.24, 0.4, game_message);
 
 	char round_message[32];
-	sprintf(round_message, "round = %d", simdata.gameRound);
-	glColor3f(1.0, 1.0, 1.0);
-	drawString(0.1, 0.2, 0.0, 0.25, 0.5, round_message);
+	sprintf(round_message, "round : %d", simdata.gameRound);
+	glColor3f(0.1, 0.1, 0.1);
+	drawString(0.05, 0.17, 0.0, 0.24, 0.4, round_message);
+
+	char score_message[32];
+	sprintf(score_message, "score : %d", simdata.score );
+	glColor3f( 0.1, 0.1, 0.1 );
+	drawString(0.05, 0.11, 0.0, 0.2, 0.4, score_message );
+
+	char skill_message[32];
+	sprintf(skill_message, "Your Skill : %3.2lf", simdata.PlayerSkill);
+	glColor3f(0.1, 0.1, 0.1);
+	drawString(0.05, 0.05, 0.0, 0.2, 0.4, skill_message);
+
+	char currentParam[32];
+	sprintf(currentParam, "Learned data");
+	glColor3f(0.8, 0.1, 0.1);
+	drawString(0.8, 0.2, 0.0, 0.15, 0.3, currentParam);
+
+	char hitRate[32];
+	sprintf(hitRate, "HitRate : %3.2lf", simdata.CurrentHitRate);
+	glColor3f(0.1, 0.1, 0.1);
+	drawString(0.8, 0.15, 0.0, 0.15, 0.3, hitRate);
+
+	char pushRate[32];
+	sprintf(pushRate, "PushRate : %3.2lf", simdata.CurrentPushRate);
+	glColor3f(0.1, 0.1, 0.1);
+	drawString(0.8, 0.1, 0.0, 0.15, 0.3, pushRate);
+
+	char killRate[32];
+	sprintf(killRate, "KillRate : %3.2lf", simdata.CurrentKillRate);
+	glColor3f(0.1, 0.1, 0.1);
+	drawString(0.8, 0.05, 0.0, 0.15, 0.3, killRate);
+
+	char enemyInfo[32];
+	sprintf(enemyInfo, "Enemy info");
+	glColor3f(0.8, 0.1, 0.1);
+	drawString(0.05, 0.95, 0.0, 0.1, 0.2, enemyInfo);
+
+	char enemySpeed[32];
+	sprintf(enemySpeed, "EnemySpeed : %3.2lf", simdata.enemyMoveSpeed);
+	glColor3f(0.1, 0.1, 0.1);
+	drawString(0.05, 0.9, 0.0, 0.1, 0.2, enemySpeed);
+
+	char enemyInterval[32];
+	sprintf(enemyInterval, "Attack Interval : %3.2lf", simdata.enemyShootInterval);
+	glColor3f(0.1, 0.1, 0.1);
+	drawString(0.05, 0.85, 0.0, 0.1, 0.2, enemyInterval);
 
 	//sprintf(head_xyz, "ROT: %8.3f\t%8.3f\t%8.3f", 
 	//	simdata.head.rot.roll,
@@ -356,8 +401,8 @@ void DrawScene( void )
 {
 	glDisable( GL_LIGHTING );
 	glColor3f( 0.5, 0.5, 0.5 );
-	ezUtil_drawGrid( 100, 100.0 );
-	ezUtil_drawAxes( 100.0 );
+	// ezUtil_drawGrid( 100, 100.0 );
+	// ezUtil_drawAxes( 100.0 );
 
 	//kinect->drawPoints( true );
 

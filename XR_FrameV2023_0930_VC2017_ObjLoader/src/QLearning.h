@@ -13,6 +13,9 @@ public:
 
 	double calculateSkill();
 	void updateScores(double accuracy, int buttonPresses, int enemiesDestroyed);
+	double CalcHitRate;
+	double CalcPushRate;
+	double CalcKillRate;
 
 private:
 	std::vector<double> qValues;

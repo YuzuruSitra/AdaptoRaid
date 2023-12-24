@@ -125,12 +125,16 @@ void InitScene(void)
 	simdata.player.move = 0.0;
 	simdata.player.radius = 0.5;
 
-
 	InitialSetting();
 
+	simdata.PlayerSkill = 50;
 	simdata.score = 0;
 	simdata.gameRound = 0;
-
+	simdata.CurrentHitRate = 0;
+	simdata.CurrentPushRate = 0;
+	simdata.CurrentKillRate = 0;
+	simdata.enemyMoveSpeed = 1.0f;
+	simdata.enemyShootInterval = 1.0f;
 
 	//右手（ローカル座標）をプレイヤの子座標系とする
 	setObjLocal(&simdata.handR, &simdata.player); //★
@@ -259,9 +263,7 @@ void InitialSetting()
 		simdata.enemies[i].ysize = 0.75;
 		simdata.enemies[i].zsize = 0.75;
 
-		//printf("enemies[%i]の X座標:%f Y座標:%f\n", i, setPosX, setPosY);
-
-		simdata.enemies[i].move = 0.0;
+		simdata.enemies[i].move = 1.0;
 		simdata.enemies[i].turn = 0.0;
 
 		setObjColor(&simdata.enemies[i], 0.0, 1.0, 0.0);
@@ -362,7 +364,7 @@ void UpdateScene(void)
 	MovingEnemies();
 	EnemyShooting();
 	EnemyBulletMove();
-	CalcDifficulty();
+	CalcPlayerSkill();
 	OnCollision();
 	StateRun();
 	RestartGame();
@@ -442,7 +444,6 @@ void MovingEnemies(void)
 {
 	for (int i = 0; i < N_ENEMIES; i++)
 	{
-		//if (!simdata.enemies[i].visible) continue;
 		// 初動delay
 		if (simdata.enemies[i].enemyMoveTime >= 0)
 		{
@@ -450,8 +451,7 @@ void MovingEnemies(void)
 			continue;
 		}
 
-		float speed = 1.0f;
-		float downPadding = 0.5f;
+		const float DOWN_PADDING = 0.5f;
 
 		// 左右移動の切り替え制御
 		if ((simdata.enemies[i].pos.x > LANGE_POS_X && simdata.enemies[i].enemyLastReachPoint == 0) || (simdata.enemies[i].pos.x < -LANGE_POS_X && simdata.enemies[i].enemyLastReachPoint == 1))
@@ -464,13 +464,13 @@ void MovingEnemies(void)
 				if (simdata.enemies[i].enemyLine != line) continue;
 				simdata.enemies[i].enemyGoRight = !simdata.enemies[i].enemyGoRight;
 				simdata.enemies[i].enemyLastReachPoint = (simdata.enemies[i].enemyLastReachPoint == 0) ? 1 : 0;
-				simdata.enemies[i].pos.y -= downPadding;
+				simdata.enemies[i].pos.y -= DOWN_PADDING;
 			}
 		}
 
-		if (!simdata.enemies[i].enemyGoRight) speed *= -1;
-
-		float setPosX = simdata.enemies[i].pos.x + speed * deltaTime;
+		if (!simdata.enemies[i].enemyGoRight) simdata.enemies[i].move = simdata.enemyMoveSpeed * -1;
+		else simdata.enemies[i].move = simdata.enemyMoveSpeed;
+		float setPosX = simdata.enemies[i].pos.x + simdata.enemies[i].move * deltaTime;
 		setObjPos(&simdata.enemies[i], setPosX, simdata.enemies[i].pos.y, simdata.enemies[i].pos.z);
 	}
 	return;
@@ -481,7 +481,7 @@ void EnemyShooting(void)
 {
 	// 待機処理
 	if (useWaitEnemyShoot == waitProcess.WAIT_ERROR_VALUE) useWaitEnemyShoot = waitProcess.SelectID();
-	bool waiting = !waitProcess.WaitForTime(useWaitEnemyShoot, enemyShootInterval, deltaTime);
+	bool waiting = !waitProcess.WaitForTime(useWaitEnemyShoot, simdata.enemyShootInterval, deltaTime);
 	if (waiting) return;
 
 	// 底面にいる中から射撃する敵を選定
@@ -503,7 +503,6 @@ void EnemyShooting(void)
 		simdata.enemyBullets[target].visible = true;
 		float setPosY = simdata.enemies[i].pos.y - 1.0f;
 		setObjPos(&simdata.enemyBullets[target], simdata.enemies[i].pos.x, setPosY, simdata.enemies[i].pos.z);
-		enemyShootInterval = uniformRandom(0.2f, 1.2f);
 		// 待機クラス選択の初期化
 		useWaitEnemyShoot = waitProcess.WAIT_ERROR_VALUE;
 		break;
@@ -609,21 +608,26 @@ void StateRun(void)
 }
 
 // 難易度の遷移
-void CalcDifficulty(void)
+void CalcPlayerSkill(void)
 {
 	// 待機処理
 	if (useWaitCalcDifficulty == waitProcess.WAIT_ERROR_VALUE) useWaitCalcDifficulty = waitProcess.SelectID();
 	bool waiting = !waitProcess.WaitForTime(useWaitCalcDifficulty, CALC_SKILL_WAIT_TIME, deltaTime);
 	if (waiting) return;
+
 	// 難易度調整処理
 	double hitRate;
 	if (simdata.currentAllBullet == 0 || simdata.currentHitBullet == 0) hitRate = 0;
 	else hitRate = (double)simdata.currentHitBullet / (double)simdata.currentAllBullet;
 	// プレイヤーの上手さを計算し、Q値を更新
 	qLearning.updateScores(hitRate, simdata.buttonPresses, simdata.destroyEnemies);
-	double playerSkill = qLearning.calculateSkill();
-	printf("Player Skill : %lf\n", playerSkill);
-	// 値のリセット
+	simdata.PlayerSkill = qLearning.calculateSkill();
+	CalcDifficulty(simdata.PlayerSkill);
+	// 各値の取得
+	simdata.CurrentHitRate = qLearning.CalcHitRate;
+	simdata.CurrentPushRate = qLearning.CalcPushRate;
+	simdata.CurrentKillRate = qLearning.CalcKillRate;
+	// 計算値のリセット
 	simdata.currentHitBullet = 0;
 	simdata.currentAllBullet = 0;
 	simdata.destroyEnemies = 0;
@@ -632,6 +636,20 @@ void CalcDifficulty(void)
 	// 待機クラス選択の初期化
 	useWaitCalcDifficulty = waitProcess.WAIT_ERROR_VALUE;
 	return;
+}
+
+// 難易度の変更処理
+void CalcDifficulty(double playerSkill)
+{
+	double normalizedSkill = playerSkill / 100.0;
+	// 敵の移動速度を指定範囲で算出
+	const double ENEMY_MOVE_SPEED_MIN = 0.1;
+	const double ENEMY_MOVE_SPEED_MAX = 2.0;
+	simdata.enemyMoveSpeed = ENEMY_MOVE_SPEED_MIN + normalizedSkill * (ENEMY_MOVE_SPEED_MAX - ENEMY_MOVE_SPEED_MIN);
+	// 敵の発砲インターバルを指定範囲で算出
+	const double ENEMY_SHOOT_INTERVAL_MIN = 0.1;
+	const double ENEMY_SHOOT_INTERVAL_MAX = 1.5;
+	simdata.enemyShootInterval = ENEMY_SHOOT_INTERVAL_MAX - normalizedSkill * (ENEMY_SHOOT_INTERVAL_MAX - ENEMY_SHOOT_INTERVAL_MIN);
 }
 
 // リスタート
