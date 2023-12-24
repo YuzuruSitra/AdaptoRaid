@@ -5,7 +5,7 @@
 
 QLearning::QLearning() {
 	for (int i = 0; i < NODENO; ++i) {
-		qValues.push_back(rand100());
+		qValues.push_back(INITIAL);
 	}
 }
 
@@ -13,21 +13,28 @@ QLearning::~QLearning() {
 }
 
 double QLearning::updateQValue(double oldValue, double reward) {
+	printf("old : %lf reward : %lf output : %lf\n", oldValue, reward, oldValue + ALPHA * (GAMMA * reward - oldValue));
 	return oldValue + ALPHA * (GAMMA * reward - oldValue);
 }
 
-int QLearning::selectBestAction() {
-	int bestAction = 1;
-	double maxQValue = qValues[1];
-
-	for (int i = 2; i < NODENO; ++i) {
-		if (qValues[i] > maxQValue) {
-			maxQValue = qValues[i];
-			bestAction = i;
-		}
+int QLearning::selectActionWithExploration() {
+	if (rand() / static_cast<double>(RAND_MAX) < EXPLORATION_RATE) {
+		// εの確率でランダムな行動を選択
+		return rand() % NODENO + 1;
 	}
+	else {
+		// 1-εの確率で最も高いQ値を持つ行動を選択
+		int bestAction = 1;
+		double maxQValue = qValues[1];
 
-	return bestAction;
+		for (int i = 2; i < NODENO; ++i) {
+			if (qValues[i] > maxQValue) {
+				maxQValue = qValues[i];
+				bestAction = i;
+			}
+		}
+		return bestAction;
+	}
 }
 
 double QLearning::calculateSkill() {
@@ -36,14 +43,19 @@ double QLearning::calculateSkill() {
 	for (int i = 1; i < NODENO; ++i) {
 		skill += qValues[i];
 	}
-
 	return skill / (NODENO - 1); // 平均を取る
 }
 
-void QLearning::updateScores(double accuracy, int buttonPresses, int enemiesDestroyed) {
-	int action = selectBestAction();
-	// 仮の報酬の計算方法
-	double reward = (accuracy + 1.0 - static_cast<double>(buttonPresses) / 100.0 + static_cast<double>(enemiesDestroyed) / 10.0) / 3.0;
+void QLearning::updateScores(double hitRate, int buttonPresses, int enemiesDestroyed) {
+	int action = selectActionWithExploration();
+	// 計算値に変換
+	double calcHitRate = CalcHitRatio(hitRate);
+	double calcButtonPresses = CalcPushButtonRatio(buttonPresses);
+	double calcEnemiesDestroyed = CalcEnemyDestroyRatio(enemiesDestroyed);
+	
+	printf("hitrate : %lf buttonpress : %lf enemiesDestroy : %lf\n", calcHitRate, calcButtonPresses, calcEnemiesDestroyed);
+	// 報酬の計算方法
+	double reward = (calcHitRate + calcButtonPresses + calcEnemiesDestroyed) / 3.0 * 100;
 
 	// Q値の更新
 	qValues[action] = updateQValue(qValues[action], reward);
@@ -55,8 +67,24 @@ void QLearning::updateScores(double accuracy, int buttonPresses, int enemiesDest
 	std::cout << std::endl;
 }
 
-int QLearning::rand100() {
-	int rnd;
-	while ((rnd = rand()) == RAND_MAX);
-	return static_cast<int>((static_cast<double>(rnd) / RAND_MAX) * 101);
+double QLearning::CalcHitRatio(double hitRate)
+{
+	if (hitRate > 1) hitRate = 1;
+	return hitRate;
 }
+
+double QLearning::CalcPushButtonRatio(int buttonPresses)
+{
+	const double ASSUME_MAX_PUSH = 50.0;
+	if (buttonPresses == 0) return 1;
+	double value = 1.0 - static_cast<double>(buttonPresses) / ASSUME_MAX_PUSH;
+	return value;
+}
+
+double QLearning::CalcEnemyDestroyRatio(int enemiesDestroyed)
+{
+	const double ASSUME_MAX_ENEMY = 10.0;
+	double value = static_cast<double>(enemiesDestroyed) / ASSUME_MAX_ENEMY;
+	return value;
+}
+

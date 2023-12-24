@@ -18,12 +18,15 @@ private:
 	std::vector<double> qValues;
 
 	static constexpr int NODENO = 15;  // ƒm[ƒh‚Ì”
-	static constexpr double ALPHA = 0.1;  // ŠwKŒW”
+	static constexpr double ALPHA = 0.3;  // ŠwKŒW”
 	static constexpr double GAMMA = 0.9;  // Š„ˆø—¦
-
-	int rand100();
+	static constexpr double INITIAL = 50; // Q’l‚Ì‰Šú’l
+	static constexpr double EXPLORATION_RATE = 0.3;  // ’Tõ—¦
+	double CalcHitRatio(double hitRate);
+	double CalcPushButtonRatio(int buttonPresses);
+	double CalcEnemyDestroyRatio(int enemiesDestroyed);
 	double updateQValue(double oldValue, double reward);
-	int selectBestAction();
+	int selectActionWithExploration();
 };
 
 #endif // QLEARNING_H

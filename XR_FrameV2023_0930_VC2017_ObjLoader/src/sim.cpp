@@ -322,6 +322,7 @@ void InitialSetting()
 	simdata.currentHitBullet = 0;
 	simdata.currentAllBullet = 0;
 	simdata.destroyEnemies = 0;
+	simdata.buttonPresses = 0;
 }
 
 /*-------------------------------------------------------------- UpdateScene
@@ -341,6 +342,7 @@ int useWaitEnemyShoot = waitProcess.WAIT_ERROR_VALUE;
 int useWaitCalcDifficulty = waitProcess.WAIT_ERROR_VALUE;
 int useFortWaitClass = waitProcess.WAIT_ERROR_VALUE;
 int useResetWaitClass = waitProcess.WAIT_ERROR_VALUE;
+int currentPressButton = -1;
 
 void UpdateScene(void)
 {
@@ -373,16 +375,27 @@ void UpdateScene(void)
 void MovingFort(void)
 {
 	float speed = 4.0f;
-	if (keydata.arrowLeft && simdata.fort.pos.x > -LANGE_POS_X) simdata.fort.pos.x -= speed * deltaTime;
-	if (keydata.arrowRight && simdata.fort.pos.x < LANGE_POS_X) simdata.fort.pos.x += speed * deltaTime;
-	simdata.buttonPresses++;
+	int pushButoon = -1;
+	if (keydata.arrowLeft && simdata.fort.pos.x > -LANGE_POS_X)
+	{
+		simdata.fort.pos.x -= speed * deltaTime;
+		pushButoon = 0;
+	}
+	if (keydata.arrowRight && simdata.fort.pos.x < LANGE_POS_X)
+	{
+		simdata.fort.pos.x += speed * deltaTime;
+		pushButoon = 1;
+	}
+	if (pushButoon != currentPressButton) simdata.buttonPresses++;
+	currentPressButton = pushButoon;
+
 	return;
 }
 
 // 砲台から攻撃
 void FortShooting(void)
 {
-	const float shootInterval = 0.25f;
+	const float shootInterval = 0.1f;
 
 	// 待機処理
 	if (useWaitFortShoot == waitProcess.WAIT_ERROR_VALUE) useWaitFortShoot = waitProcess.SelectID();
@@ -600,12 +613,12 @@ void CalcDifficulty(void)
 {
 	// 待機処理
 	if (useWaitCalcDifficulty == waitProcess.WAIT_ERROR_VALUE) useWaitCalcDifficulty = waitProcess.SelectID();
-	bool waiting = !waitProcess.WaitForTime(useWaitCalcDifficulty, 3.0f, deltaTime);
+	bool waiting = !waitProcess.WaitForTime(useWaitCalcDifficulty, CALC_SKILL_WAIT_TIME, deltaTime);
 	if (waiting) return;
 	// 難易度調整処理
 	double hitRate;
-	if (simdata.currentAllBullet == 0) hitRate = 0;
-	else hitRate = simdata.currentHitBullet / simdata.currentAllBullet;
+	if (simdata.currentAllBullet == 0 || simdata.currentHitBullet == 0) hitRate = 0;
+	else hitRate = (double)simdata.currentHitBullet / (double)simdata.currentAllBullet;
 	// プレイヤーの上手さを計算し、Q値を更新
 	qLearning.updateScores(hitRate, simdata.buttonPresses, simdata.destroyEnemies);
 	double playerSkill = qLearning.calculateSkill();
@@ -614,6 +627,7 @@ void CalcDifficulty(void)
 	simdata.currentHitBullet = 0;
 	simdata.currentAllBullet = 0;
 	simdata.destroyEnemies = 0;
+	simdata.buttonPresses = 0;
 
 	// 待機クラス選択の初期化
 	useWaitCalcDifficulty = waitProcess.WAIT_ERROR_VALUE;

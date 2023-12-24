@@ -52,6 +52,9 @@ void DrawScene(void);
 // シールド
 #define SHIELDS 12
 
+// プレイヤースキル計算の待機時間
+#define CALC_SKILL_WAIT_TIME 5
+
 //-------- simulation data
 typedef struct {
 
