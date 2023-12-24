@@ -7,6 +7,9 @@ QLearning::QLearning() {
 	for (int i = 0; i < NODENO; ++i) {
 		qValues.push_back(INITIAL);
 	}
+	CalcHitRate = 0;
+	CalcPushRate = 0;
+	CalcKillRate = 0;
 }
 
 QLearning::~QLearning() {
@@ -82,6 +85,7 @@ double QLearning::CalcEnemyDestroyRatio(int enemiesDestroyed)
 {
 	const double ASSUME_MAX_ENEMY = 10.0;
 	double value = static_cast<double>(enemiesDestroyed) / ASSUME_MAX_ENEMY;
+	if (value > 1) value = 1;
 	return value;
 }
 

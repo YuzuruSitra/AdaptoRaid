@@ -21,10 +21,10 @@ private:
 	std::vector<double> qValues;
 
 	static constexpr int NODENO = 15;  // ƒm[ƒh‚Ì”
-	static constexpr double ALPHA = 0.3;  // ŠwKŒW”
-	static constexpr double GAMMA = 0.9;  // Š„ˆø—¦
+	static constexpr double ALPHA = 0.7;  // ŠwKŒW”
+	static constexpr double GAMMA = 0.99;  // Š„ˆø—¦
 	static constexpr double INITIAL = 50; // Q’l‚Ì‰Šú’l
-	static constexpr double EXPLORATION_RATE = 0.3;  // ’Tõ—¦
+	static constexpr double EXPLORATION_RATE = 0.5;  // ’Tõ—¦
 	double CalcHitRatio(double hitRate);
 	double CalcPushButtonRatio(int buttonPresses);
 	double CalcEnemyDestroyRatio(int enemiesDestroyed);

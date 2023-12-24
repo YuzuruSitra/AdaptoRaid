@@ -1,6 +1,6 @@
 ﻿  sim.cpp
 E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\lib_ObjLoader\ObjLoader_Seq.h(2,10): warning C4067: プリプロセッサ ディレクティブの後に余分な文字がありました - 改行が必要です
-E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\src\sim.cpp(427,19): warning C4553: '==': 式の結果が使用されていません。'=' を意図していますか?
+E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\src\sim.cpp(428,19): warning C4553: '==': 式の結果が使用されていません。'=' を意図していますか?
   libpng16.lib(pngread.obj) : MSIL .netmodule または /GL を伴ってコンパイルされたモジュールが見つかりました。/LTCG を使用して再開始してください。リンカーのパフォーマンスを向上させるためには、コマンドラインに /LTCG を追加してください。
 LINK : warning LNK4075: /INCREMENTAL は /LTCG の指定によって無視されます。
      ライブラリ E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\Debug\vrframe2020_v1.lib とオブジェクト E:\GitFork\ResearchOnMeta-AI-1\XR_FrameV2023_0930_VC2017_ObjLoader\Debug\vrframe2020_v1.exp を作成中

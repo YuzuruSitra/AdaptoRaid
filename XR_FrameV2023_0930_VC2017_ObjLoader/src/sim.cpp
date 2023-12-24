@@ -346,6 +346,8 @@ int useFortWaitClass = waitProcess.WAIT_ERROR_VALUE;
 int useResetWaitClass = waitProcess.WAIT_ERROR_VALUE;
 int currentPressButton = -1;
 
+bool restartWaiting = false;
+
 void UpdateScene(void)
 {
 
@@ -610,6 +612,7 @@ void StateRun(void)
 // “ïˆÕ“x‚Ì‘JˆÚ
 void CalcPlayerSkill(void)
 {
+	if (restartWaiting) return;
 	// ‘Ò‹@ˆ—
 	if (useWaitCalcDifficulty == waitProcess.WAIT_ERROR_VALUE) useWaitCalcDifficulty = waitProcess.SelectID();
 	bool waiting = !waitProcess.WaitForTime(useWaitCalcDifficulty, CALC_SKILL_WAIT_TIME, deltaTime);
@@ -641,7 +644,11 @@ void CalcPlayerSkill(void)
 // “ïˆÕ“x‚Ì•ÏXˆ—
 void CalcDifficulty(double playerSkill)
 {
-	double normalizedSkill = playerSkill / 100.0;
+	// ‰e‹¿‚ð‘å‚«‚­‚·‚é‚½‚ß‚ÌŒvŽZ
+	double normalizedSkill = (playerSkill - 40.0) / (60.0 - 40.0);
+	if (normalizedSkill > 1) normalizedSkill = 1;
+	else if (normalizedSkill < 0) normalizedSkill = 0;
+
 	// “G‚ÌˆÚ“®‘¬“x‚ðŽw’è”ÍˆÍ‚ÅŽZo
 	const double ENEMY_MOVE_SPEED_MIN = 0.1;
 	const double ENEMY_MOVE_SPEED_MAX = 2.0;
@@ -658,9 +665,11 @@ void RestartGame()
 	for (int i = 0; i < N_ENEMIES; i++) if (simdata.enemies[i].visible) return;
 	if (useResetWaitClass == waitProcess.WAIT_ERROR_VALUE) useResetWaitClass = waitProcess.SelectID();
 	bool waiting = !waitProcess.WaitForTime(useResetWaitClass, 3.0f, deltaTime);
+	restartWaiting = true;
 	if (waiting) return;
 	useResetWaitClass = waitProcess.WAIT_ERROR_VALUE;
 	simdata.gameRound += 1;
+	restartWaiting = false;
 	InitialSetting();
 }
 
